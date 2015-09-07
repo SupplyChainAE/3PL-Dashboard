@@ -8,8 +8,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,7 +38,10 @@ public class User extends BaseEntity implements UserDetails{
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Roles> userRoles;
 	
-
+	@ManyToMany(fetch=FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Shipper> shippers;
+	
 	public List<Roles> getUserRoles() {
 		return userRoles;
 	}
@@ -95,5 +101,13 @@ public class User extends BaseEntity implements UserDetails{
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
+	}
+
+	public void setShippers(List<Shipper> shippers) {
+		this.shippers = shippers;
+	}
+
+	public List<Shipper> getShippers() {
+		return shippers;
 	}
 }

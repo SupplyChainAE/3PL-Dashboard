@@ -10,14 +10,88 @@ $(document).ready(function(){
 	$('#dashboard').addClass("active");
 	$("#dropTable").DataTable({
 		"paging": true,
-	    "lengthChange": false,
-	    "searching": false,
+	    "lengthChange": true,
+	    "searching": true,
 	    "ordering": true,
 	    "info": true,
 	    "autoWidth": false
 	});
-
 });
+
+function save()
+{
+	var data= new Array();
+	
+	if ( "${filterData}" != "")
+	{
+
+		<c:forEach var="item" items="${filterData}" >
+			var obj = new Object();
+			obj.shipperGroup = "${item.shipperGroup}";
+			obj.shipper = "${item.shipper}";
+			obj.mode = "${item.mode}";
+			obj.shippedToday= "${item.shippedToday}";
+			obj.notshippedOneDay= "${item.notshippedOneDay}";
+			obj.notshippedTwoDays= "${item.notshippedTwoDays}";
+			obj.notshippedThreeDays= "${item.notshippedThreeDays}";
+			obj.notshippedFourDays= "${item.notshippedFourDays}";
+			obj.notshippedMoreFourDays= "${item.notshippedMoreFourDays}";
+
+			data.push(obj);
+		</c:forEach>
+		
+		data = JSON.stringify(data);
+		$.ajax({
+			
+			url : "/3PL/Dashboard/dropship/saveToFile1",
+			method : "POST",
+			contentType : "application/json",
+			mimeType: 'application/json',
+			dataType:"text",
+			data : data ,
+		
+			success: function(data){alert(data);},
+			error: function(xhr, textStatus, errorThrown){
+				alert('request failed'+errorThrown+textStatus);
+				}
+		});
+	}
+	else
+	{
+		<c:forEach var="item" items="${data}" >
+		var obj = new Object();
+		obj.shipperGroup = "${item.shipperGroup}";
+		obj.shipper = "${item.shipper}";
+		obj.mode = "${item.mode}";
+		obj.shippedToday= "${item.shippedToday}";
+		obj.notshippedOneDay= "${item.notshippedOneDay}";
+		obj.notshippedTwoDays= "${item.notshippedTwoDays}";
+		obj.notshippedThreeDays= "${item.notshippedThreeDays}";
+		obj.notshippedFourDays= "${item.notshippedFourDays}";
+		obj.notshippedMoreFourDays= "${item.notshippedMoreFourDays}";
+
+		data.push(obj);	
+		</c:forEach>
+	
+	data = JSON.stringify(data);
+	$.ajax({
+		
+		url : "/3PL/Dashboard/dropship/saveToFile2",
+		method : "POST",
+		contentType : "application/json",
+		mimeType: 'application/json',
+		dataType:"json",
+		data : data ,
+	
+		success: function(data){alert(data);},
+		error: function(xhr, textStatus, errorThrown){
+			alert('request failed'+errorThrown+textStatus);
+			}
+	});	
+	}
+	alert(data);
+	
+}
 </script>
 
 </jsp:attribute>
@@ -160,6 +234,11 @@ $(document).ready(function(){
                     </table>
                     </c:otherwise>
                     </c:choose>
+                    <div align="center">
+                    	<button class="btn btn-app" onclick="save();">
+                    	<i 	class="fa fa-save"></i>Save to File
+                    	</button>
+                    </div>
         		</div>
 				</div>
 			</div>

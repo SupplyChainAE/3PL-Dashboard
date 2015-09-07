@@ -7,9 +7,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.snapdeal.entity.BaseEntity;
 
+
 @Named("entityDao")
+@Transactional
 public class EntityDaoImpl implements EntityDao {
 	
 	@PersistenceContext

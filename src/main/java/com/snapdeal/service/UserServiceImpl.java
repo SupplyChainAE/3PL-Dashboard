@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.snapdeal.dao.EntityDao;
 import com.snapdeal.entity.Roles;
+import com.snapdeal.entity.Shipper;
 import com.snapdeal.entity.User;
 
 @Transactional
@@ -57,7 +58,13 @@ public class UserServiceImpl implements UserService{
 		List<Roles> userRoles = entityDao.findAll(Roles.class);
 		return userRoles;
 	}
-
+	
+	@Override
+	public List<Shipper> getAllShippers() {
+		List<Shipper> shippers = entityDao.findAll(Shipper.class);
+		return shippers;
+	}
+	
 	@Override
 	public void saveOrUpdateRole(Roles role) {
 		entityDao.saveOrUpdate(role);

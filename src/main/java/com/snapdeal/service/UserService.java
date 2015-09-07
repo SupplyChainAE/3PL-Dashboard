@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.snapdeal.entity.Roles;
+import com.snapdeal.entity.Shipper;
 import com.snapdeal.entity.User;
 
 @Service
@@ -19,4 +20,5 @@ public interface UserService {
 	public void enableUser(Long id);
 	public void disableUser(Long id);
 	public boolean checkUser(String userName);
+	public List<Shipper> getAllShippers();
 }

@@ -7,11 +7,9 @@ import javax.inject.Named;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.snapdeal.dao.CancellationDao;
-import com.snapdeal.dto.Filters;
 import com.snapdeal.entity.Cancellation;
 
 @Controller
