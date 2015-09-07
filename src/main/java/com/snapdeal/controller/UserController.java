@@ -1,10 +1,12 @@
 package com.snapdeal.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.snapdeal.dao.EntityDao;
 import com.snapdeal.entity.Roles;
 import com.snapdeal.entity.Shipper;
 import com.snapdeal.entity.User;
@@ -39,23 +40,41 @@ public class UserController {
 	}
 
 	@RequestMapping("/save")
-	public String saveUser(@RequestParam("user") User user, ModelMap map) {
+	public String saveUser(@ModelAttribute("user") User user, @RequestParam("role") Long[] roles,
+				@RequestParam("shipper") Long[] shippers,ModelMap map) {
 		System.out.println(user.getUsername());
-		// if(user.getId() == null)
-		// {
-		// userService.saveOrUpdateUser(user);
-		// }
-		// else
-		// {
-		// User persistedUser = userService.findUserById(user.getId());
-		// persistedUser.setUserName(user.getUsername());
-		// persistedUser.setUserRoles(user.getUserRoles());
-		// persistedUser.setShippers(user.getShippers());
-		//
-		// userService.saveOrUpdateUser(persistedUser);
-		// }
-
-		List<User> userList = userService.getUsersExceptLoggedIn("mohit");
+		List<Roles> finalRoles = new ArrayList<Roles>();
+		List<Shipper> finalShippers = new ArrayList<Shipper>();
+		
+		for(Long roleId : roles)
+		{
+			Roles r = new Roles();
+			r.setId(roleId);
+			finalRoles.add(r);
+		}
+		for(Long shipperId : shippers)
+		{
+			Shipper sh = new Shipper();
+			sh.setId(shipperId);
+			finalShippers.add(sh);
+		} 
+		if(user.getId() == null)
+		{
+			user.setUserRoles(finalRoles);
+			user.setShippers(finalShippers);
+			userService.saveOrUpdateUser(user);
+		}
+		else
+		{
+			 User persistedUser = userService.findUserById(user.getId());
+			 persistedUser.setUserName(user.getUsername());
+			 persistedUser.setUserRoles(finalRoles);
+			 persistedUser.setShippers(finalShippers);
+			
+			 userService.saveOrUpdateUser(persistedUser);
+		 }
+		String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+		List<User> userList = userService.getUsersExceptLoggedIn(currentUser);
 		map.put("users", userList);
 
 		return "User/view";
@@ -63,7 +82,8 @@ public class UserController {
 
 	@RequestMapping("/view")
 	public String showUsers(ModelMap map) {
-		List<User> userList = userService.getUsersExceptLoggedIn("mohit");
+		String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+		List<User> userList = userService.getUsersExceptLoggedIn(currentUser);
 		map.put("users", userList);
 
 		return "User/view";
@@ -78,7 +98,7 @@ public class UserController {
 		map.put("shippers", shipperList);
 		map.put("roles", roleList);
 		map.put("user", persistedUser);
-		System.out.println(persistedUser.getShippers()+"\n \n \n");
+
 		return "User/edit";
 	}
 

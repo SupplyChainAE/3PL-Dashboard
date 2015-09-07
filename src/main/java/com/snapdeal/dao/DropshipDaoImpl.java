@@ -62,8 +62,8 @@ public class DropshipDaoImpl implements DropshipDao {
 	public List<DropshipFilter> groupByModeGroupShipper() {
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode," +
-				"COUNT(drop.shippedToday),COUNT(drop.notshippedOneDay),COUNT(drop.notshippedTwoDays),COUNT(drop.notshippedThreeDays)," +
-				"COUNT(drop.notshippedFourDays),COUNT(drop.notshippedMoreFourDays) from Dropship drop " +
+				"SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays)," +
+				"SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop " +
 				"GROUP BY drop.shipperGroup,drop.mode,drop.shipper ");
 		List<Object[]> objectList = query.getResultList();
 		List<DropshipFilter> resultList =  convertObjectToDropship(objectList);
@@ -75,8 +75,8 @@ public class DropshipDaoImpl implements DropshipDao {
 	public List<DropshipFilter> groupByMode() {
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode," +
-				"COUNT(drop.shippedToday),COUNT(drop.notshippedOneDay),COUNT(drop.notshippedTwoDays),COUNT(drop.notshippedThreeDays)," +
-				"COUNT(drop.notshippedFourDays),COUNT(drop.notshippedMoreFourDays) from Dropship drop " +
+				"SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays)," +
+				"SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop " +
 				"GROUP BY drop.mode");
 		List<Object[]> objectList = query.getResultList();
 		List<DropshipFilter> resultList =  convertObjectToDropship(objectList);
@@ -88,8 +88,8 @@ public class DropshipDaoImpl implements DropshipDao {
 	public List<DropshipFilter> groupByGroup() {
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode," +
-				"COUNT(drop.shippedToday),COUNT(drop.notshippedOneDay),COUNT(drop.notshippedTwoDays),COUNT(drop.notshippedThreeDays)," +
-				"COUNT(drop.notshippedFourDays),COUNT(drop.notshippedMoreFourDays) from Dropship drop " +
+				"SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays)," +
+				"SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop " +
 				"GROUP BY drop.shipperGroup");
 		List<Object[]> objectList = query.getResultList();
 		List<DropshipFilter> resultList =  convertObjectToDropship(objectList);
@@ -101,8 +101,8 @@ public class DropshipDaoImpl implements DropshipDao {
 	public List<DropshipFilter> groupByShipper() {
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode," +
-				"COUNT(drop.shippedToday),COUNT(drop.notshippedOneDay),COUNT(drop.notshippedTwoDays),COUNT(drop.notshippedThreeDays)," +
-				"COUNT(drop.notshippedFourDays),COUNT(drop.notshippedMoreFourDays) from Dropship drop " +
+				"SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays)," +
+				"SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop " +
 				"GROUP BY drop.shipper");
 		List<Object[]> objectList = query.getResultList();
 		List<DropshipFilter> resultList =  convertObjectToDropship(objectList);
@@ -114,8 +114,8 @@ public class DropshipDaoImpl implements DropshipDao {
 	public List<DropshipFilter> groupByGroupShipper() {
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode," +
-				"COUNT(drop.shippedToday),COUNT(drop.notshippedOneDay),COUNT(drop.notshippedTwoDays),COUNT(drop.notshippedThreeDays)," +
-				"COUNT(drop.notshippedFourDays),COUNT(drop.notshippedMoreFourDays) from Dropship drop " +
+				"SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays)," +
+				"SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop " +
 				"GROUP BY drop.shipperGroup,drop.shipper");
 		List<Object[]> objectList = query.getResultList();
 		List<DropshipFilter> resultList =  convertObjectToDropship(objectList);
@@ -127,8 +127,8 @@ public class DropshipDaoImpl implements DropshipDao {
 	public List<DropshipFilter> groupByModeShipper() {
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode" +
-				"COUNT(drop.shippedToday),COUNT(drop.notshippedOneDay),COUNT(drop.notshippedTwoDays),COUNT(drop.notshippedThreeDays)," +
-				"COUNT(drop.notshippedFourDays),COUNT(drop.notshippedMoreFourDays) from Dropship drop " +
+				"SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays)," +
+				"SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop " +
 				"GROUP BY drop.mode,drop.shipper");
 		List<Object[]> objectList = query.getResultList();
 		List<DropshipFilter> resultList =  convertObjectToDropship(objectList);
@@ -140,8 +140,8 @@ public class DropshipDaoImpl implements DropshipDao {
 	public List<DropshipFilter> groupByModeGroup() {
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode" +
-				"COUNT(drop.shippedToday),COUNT(drop.notshippedOneDay),COUNT(drop.notshippedTwoDays),COUNT(drop.notshippedThreeDays)," +
-				"COUNT(drop.notshippedFourDays),COUNT(drop.notshippedMoreFourDays) from Dropship drop " +
+				"SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays)," +
+				"SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop " +
 				"GROUP BY drop.mode,drop.shipperGroup");
 		List<Object[]> objectList = query.getResultList();
 		List<DropshipFilter> resultList =  convertObjectToDropship(objectList);
@@ -169,6 +169,4 @@ public class DropshipDaoImpl implements DropshipDao {
 		}
 		return resultList;
 	}
-
-	
 }

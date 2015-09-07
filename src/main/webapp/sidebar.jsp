@@ -15,7 +15,7 @@
 			<i class="fa fa-circle-o"></i>Dropship</a>
 			</li>
 			<li id="cancel">
-			<a href="<c:url value="/Dashboard/cancellation"/>"><i	class="fa fa-circle-o"></i>Cancellations</a>
+			<a href="<c:url value="/Dashboard/cancellationHome"/>"><i	class="fa fa-circle-o"></i>Cancellations</a>
 			</li>
 		</ul></li>
 		<li id ="dashboard" class=" treeview"><a href="<c:url value="/User"/>">
