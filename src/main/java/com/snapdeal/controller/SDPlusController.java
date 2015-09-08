@@ -1,6 +1,9 @@
 package com.snapdeal.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,7 +31,10 @@ public class SDPlusController {
 	@RequestMapping("sdplus")
 	public String getcompleteData(ModelMap map)
 	{
-		List<SdPlus>  sdplusList = sdplusDao.getAllData();
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		Date d = new Date();
+		String date=dateFormat.format(d);
+		List<SdPlus>  sdplusList = sdplusDao.getAllData(date,date);
 		List<String> shipperList = sdplusDao.getShippers();
 		List<String> modeList = sdplusDao.getModes();
 		List<String> groupList = sdplusDao.getShipperGroups();
@@ -46,41 +52,51 @@ public class SDPlusController {
 		String mode = filter.getMode();
 		String group = filter.getShippergroup();
 		String shipper = filter.getShipper();
-		
+		String daterange=filter.getDaterange();
+		System.out.println("D"+daterange);
+		System.out.println("group"+group);
+		System.out.println("shipper"+shipper);
+		System.out.println("mode"+mode);
+		String dates[]=daterange.split(":");
+		String startDate=dates[0].trim();
+		String endDate=dates[1].trim();
 		List<String> shipperList = sdplusDao.getShippers();
 		List<String> modeList = sdplusDao.getModes();
 		List<String> groupList = sdplusDao.getShipperGroups();
 		
 		
 		List<SdPlusFilter> sdPlusData = new ArrayList<SdPlusFilter>();
-		
-		if(!mode.equals("") && !group.equals("")  && !shipper.equals(""))
+		if(daterange!=null && (group==null) && shipper.equals("") && mode.equals(""))
 		{
-			sdPlusData =  sdplusDao.groupByModeGroupShipper();
+			return "redirect:/Dashboard/sdplus";
 		}
-		else if( !mode.equals("") && group.equals("") && shipper.equals(""))
+		else if(!(group==null) && !shipper.equals("") && !mode.equals(""))
 		{
-			sdPlusData =  sdplusDao.groupByMode();
+			sdPlusData=sdplusDao.groupByModeGroup(startDate,endDate,mode);
 		}
-		else if( mode.equals("") && !group.equals("") && shipper.equals(""))
+		else if(!(group==null) && !shipper.equals("") && mode.equals(""))
 		{
-			sdPlusData =  sdplusDao.groupByGroup();
+			sdPlusData=sdplusDao.groupByGroup(startDate,endDate);
 		}
-		else if(mode.equals("") && group.equals("") && !shipper.equals(""))
+		else if(!(group==null) && shipper.equals("") && !mode.equals(""))
 		{
-			sdPlusData =  sdplusDao.groupByShipper();
+			sdPlusData=sdplusDao.groupByModeGroup(startDate,endDate,mode);
 		}
-		else if(!mode.equals("") && !group.equals("") && shipper.equals(""))
+		else if(!(group==null) && shipper.equals("") && mode.equals(""))
 		{
-			sdPlusData =  sdplusDao.groupByModeGroup();
+			sdPlusData=sdplusDao.groupByGroup(startDate,endDate);
 		}
-		else if(mode.equals("") && !group.equals("") && !shipper.equals(""))
+		else if((group==null) && !shipper.equals("") && !mode.equals(""))
 		{
-			sdPlusData =  sdplusDao.groupByGroupShipper();
+			sdPlusData=sdplusDao.groupByModeShipper(startDate,endDate,mode,shipper);
 		}
-		else if(!mode.equals("") && group.equals("") && !shipper.equals(""))
+		else if((group==null) && !shipper.equals("") && mode.equals(""))
 		{
-			sdPlusData =  sdplusDao.groupByModeShipper();
+			sdPlusData=sdplusDao.groupByShipper(startDate,endDate,shipper);	
+		}
+		else if((group==null) && shipper.equals("") && !mode.equals(""))
+		{
+			sdPlusData=sdplusDao.groupByMode(startDate,endDate,mode);
 		}
 		
 		map.put("shipper",shipperList);

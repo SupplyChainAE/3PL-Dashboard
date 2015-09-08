@@ -42,7 +42,7 @@
                     <div class="form-group ">
                     <div class="select2-container select2-container-multi">
                     <label>Roles</label>
-                    <select name="userRoles" multiple="multiple" class="form-control select2">
+                    <select name="role" multiple="multiple" class="form-control select2">
                       <c:forEach var="roles" items="${roles}">
                       <option value="${roles.id}">${roles.role}</option>
                       </c:forEach>
@@ -53,7 +53,7 @@
                   <div class="form-group ">
                     <div class="select2-container select2-container-multi">
                     <label>Shippers</label>
-                    <select name="shippers" multiple="multiple" class="form-control select2" >
+                    <select name="shipper" multiple="multiple" class="form-control select2" >
                      <c:forEach var="shipper" items="${shippers}">
                       <option value="${shipper.id}">${shipper.courier}</option>
                       </c:forEach>

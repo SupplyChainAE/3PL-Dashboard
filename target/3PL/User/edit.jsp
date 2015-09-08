@@ -42,19 +42,19 @@
                     <div class="form-group ">
                     <div class="select2-container select2-container-multi">
                     <label>Roles</label>
-                    <select name="userRoles" multiple="multiple"
+                    <select name="role" multiple="multiple"
 												class="form-control select2">
                       <c:forEach var="roles" items="${roles}">
                       			<c:set var="found" value="false" />
                       			<c:forEach var="savedRole"
 														items="${user.userRoles}">
 									<c:if test="${roles.id eq savedRole.id}">
-										<option value="${roles}" selected="selected">${roles.role}</option>
+										<option value="${roles.id}" selected="selected">${roles.role}</option>
 									<c:set var="found" value="true" />
 									</c:if>
 								</c:forEach>
 			                      <c:if test="${not found}">
-									<option value="${roles}">${roles.role}</option>
+									<option value="${roles.id}">${roles.role}</option>
 								  </c:if>
                       </c:forEach>
                     </select>
@@ -65,18 +65,18 @@
                     <div
 											class="select2-container select2-container-multi">
                     <label>Shippers</label>
-                    <select name="shippers" multiple="multiple"
+                    <select name="shipper" multiple="multiple"
 												class="form-control select2">
                      <c:forEach var="shipper" items="${shippers}">
 							<c:forEach var="savedShipper" items="${user.shippers}">
 									<c:set var="found" value="false" />
 									<c:if test="${shipper.id eq savedShipper.id}">
-										<option value="${shipper}" selected="selected">${shipper.courier}</option>
+										<option value="${shipper.id}" selected="selected">${shipper.courier}</option>
 									<c:set var="found" value="true" />
 									</c:if>
 								</c:forEach>
 			                      <c:if test="${not found}">
-									<option value="${shipper}">${shipper.courier}</option>
+									<option value="${shipper.id}">${shipper.courier}</option>
 								  </c:if>
                       </c:forEach>
                     </select>

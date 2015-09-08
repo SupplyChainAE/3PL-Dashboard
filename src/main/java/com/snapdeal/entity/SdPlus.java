@@ -8,41 +8,43 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="sdplus")
+@Table(name = "sdplus")
 public class SdPlus {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;	 
-	
-	@Column(name="Shipper_group")
-	private String shipperGroup;		 
-	
-	@Column(name="Shipper")
-	private String shipper;	 
-	
-	@Column(name="Mode")
-	private  String mode;		 
-	
-	@Column(name="Center")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@Column(name = "created")
+	private String created;
+
+	@Column(name = "Shipper_group")
+	private String shipperGroup;
+
+	@Column(name = "Shipper")
+	private String shipper;
+
+	@Column(name = "Mode")
+	private String mode;
+
+	@Column(name = "Center")
 	private String center;
-		
-	@Column(name="Shipped_today")	 
+
+	@Column(name = "Shipped_today")
 	private Integer shippedToday;
-	
-	@Column(name="Not_Shipped_One_Day")	 
+
+	@Column(name = "Not_Shipped_One_Day")
 	private Integer notshippedOneDay;
-	
-	@Column(name="Not_Shipped_Two_Days")	 
+
+	@Column(name = "Not_Shipped_Two_Days")
 	private Integer notshippedTwoDays;
-	
-	@Column(name="Not_Shipped_Three_Days")	 
+
+	@Column(name = "Not_Shipped_Three_Days")
 	private Integer notshippedThreeDays;
-	
-	@Column(name="Not_Shipped_Four_Days")	 
+
+	@Column(name = "Not_Shipped_Four_Days")
 	private Integer notshippedFourDays;
-	
-	@Column(name="Not_Shipped_More_than_Four_Days")
+
+	@Column(name = "Not_Shipped_More_than_Four_Days")
 	private Integer notshippedMoreFourDays;
 
 	public Long getId() {
@@ -132,6 +134,5 @@ public class SdPlus {
 	public void setNotshippedMoreFourDays(Integer notshippedMoreFourDays) {
 		this.notshippedMoreFourDays = notshippedMoreFourDays;
 	}
-	
-	
+
 }
