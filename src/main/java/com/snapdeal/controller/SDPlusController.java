@@ -53,10 +53,10 @@ public class SDPlusController {
 		String group = filter.getShippergroup();
 		String shipper = filter.getShipper();
 		String daterange=filter.getDaterange();
-		System.out.println("D"+daterange);
+	/*	System.out.println("D"+daterange);
 		System.out.println("group"+group);
 		System.out.println("shipper"+shipper);
-		System.out.println("mode"+mode);
+		System.out.println("mode"+mode);*/
 		String dates[]=daterange.split(":");
 		String startDate=dates[0].trim();
 		String endDate=dates[1].trim();

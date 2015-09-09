@@ -1,5 +1,7 @@
 package com.snapdeal.entity;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,8 +16,9 @@ public class SdPlus {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	@Column(name = "created")
-	private String created;
+	private Date created;
 
 	@Column(name = "Shipper_group")
 	private String shipperGroup;
@@ -133,6 +136,14 @@ public class SdPlus {
 
 	public void setNotshippedMoreFourDays(Integer notshippedMoreFourDays) {
 		this.notshippedMoreFourDays = notshippedMoreFourDays;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
 	}
 
 }

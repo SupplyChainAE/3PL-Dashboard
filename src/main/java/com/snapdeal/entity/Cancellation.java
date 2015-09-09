@@ -16,6 +16,11 @@ public class Cancellation {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;	 
+
+	@Column(name = "created")
+	private Date created;
+
+	
 	
 	@Column(name="Shipper_group")
 	private String shipperGroup;		 
@@ -157,5 +162,13 @@ public class Cancellation {
 		this.sellerName = sellerName;
 	}
 	
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
 
 }
