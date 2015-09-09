@@ -1,5 +1,7 @@
 package com.snapdeal.entity;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +22,9 @@ public class Dropship {
 	
 	@Column(name="Shipper")
 	private String shipper;	 
+	
+	@Column(name="created")
+	private Date created;
 	
 	@Column(name="Mode")
 	private  String mode;		 
@@ -164,6 +169,14 @@ public class Dropship {
 
 	public void setSellerState(String sellerState) {
 		this.sellerState = sellerState;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public Date getCreated() {
+		return created;
 	}
 
 	
