@@ -11,29 +11,33 @@ import javax.persistence.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.snapdeal.dto.DropshipFilter;
+import com.snapdeal.dto.SdPlusFilter;
 import com.snapdeal.entity.Dropship;
+import com.snapdeal.util.DateConvertor;
 
 @Transactional
 @Named("dropshipDao")
 public class DropshipDaoImpl implements DropshipDao {
-	
+
 	@Inject
 	@Named("entityDao")
 	EntityDao entityDao;
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Dropship> getAllData() {
 		EntityManager entityManager = entityDao.getEntityManager();
-		Query query = entityManager.createQuery("Select  drop from Dropship drop");
+		Query query = entityManager
+				.createQuery("Select  drop from Dropship drop");
 		List<Dropship> resultList = query.getResultList();
 		return resultList;
 	}
-	
+
 	@Override
 	public List<String> getModes() {
 		EntityManager entityManager = entityDao.getEntityManager();
-		Query query = entityManager.createQuery("Select  distinct drop.mode from Dropship drop");
+		Query query = entityManager
+				.createQuery("Select  distinct drop.mode from Dropship drop");
 		@SuppressWarnings("unchecked")
 		List<String> resultList = query.getResultList();
 		return resultList;
@@ -42,7 +46,8 @@ public class DropshipDaoImpl implements DropshipDao {
 	@Override
 	public List<String> getShippers() {
 		EntityManager entityManager = entityDao.getEntityManager();
-		Query query = entityManager.createQuery("Select distinct drop.shipper from Dropship drop");
+		Query query = entityManager
+				.createQuery("Select distinct drop.shipper from Dropship drop");
 		@SuppressWarnings("unchecked")
 		List<String> resultList = query.getResultList();
 		return resultList;
@@ -52,7 +57,8 @@ public class DropshipDaoImpl implements DropshipDao {
 	@SuppressWarnings("unchecked")
 	public List<String> getShipperGroups() {
 		EntityManager entityManager = entityDao.getEntityManager();
-		Query query = entityManager.createQuery("Select distinct shipperGroup from Dropship drop");
+		Query query = entityManager
+				.createQuery("Select distinct shipperGroup from Dropship drop");
 		List<String> resultList = query.getResultList();
 		return resultList;
 	}
@@ -61,12 +67,13 @@ public class DropshipDaoImpl implements DropshipDao {
 	@SuppressWarnings("unchecked")
 	public List<DropshipFilter> groupByModeGroupShipper() {
 		EntityManager entityManager = entityDao.getEntityManager();
-		Query query = entityManager.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode," +
-				"SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays)," +
-				"SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop " +
-				"GROUP BY drop.shipperGroup,drop.mode,drop.shipper ");
+		Query query = entityManager
+				.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode,"
+						+ "SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays),"
+						+ "SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop "
+						+ "GROUP BY drop.shipperGroup,drop.mode,drop.shipper ");
 		List<Object[]> objectList = query.getResultList();
-		List<DropshipFilter> resultList =  convertObjectToDropship(objectList);
+		List<DropshipFilter> resultList = convertObjectToDropship(objectList);
 		return resultList;
 	}
 
@@ -74,12 +81,13 @@ public class DropshipDaoImpl implements DropshipDao {
 	@SuppressWarnings("unchecked")
 	public List<DropshipFilter> groupByMode() {
 		EntityManager entityManager = entityDao.getEntityManager();
-		Query query = entityManager.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode," +
-				"SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays)," +
-				"SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop " +
-				"GROUP BY drop.mode");
+		Query query = entityManager
+				.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode,"
+						+ "SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays),"
+						+ "SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop "
+						+ "GROUP BY drop.mode");
 		List<Object[]> objectList = query.getResultList();
-		List<DropshipFilter> resultList =  convertObjectToDropship(objectList);
+		List<DropshipFilter> resultList = convertObjectToDropship(objectList);
 		return resultList;
 	}
 
@@ -87,12 +95,13 @@ public class DropshipDaoImpl implements DropshipDao {
 	@SuppressWarnings("unchecked")
 	public List<DropshipFilter> groupByGroup() {
 		EntityManager entityManager = entityDao.getEntityManager();
-		Query query = entityManager.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode," +
-				"SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays)," +
-				"SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop " +
-				"GROUP BY drop.shipperGroup");
+		Query query = entityManager
+				.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode,"
+						+ "SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays),"
+						+ "SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop "
+						+ "GROUP BY drop.shipperGroup");
 		List<Object[]> objectList = query.getResultList();
-		List<DropshipFilter> resultList =  convertObjectToDropship(objectList);
+		List<DropshipFilter> resultList = convertObjectToDropship(objectList);
 		return resultList;
 	}
 
@@ -100,12 +109,13 @@ public class DropshipDaoImpl implements DropshipDao {
 	@SuppressWarnings("unchecked")
 	public List<DropshipFilter> groupByShipper() {
 		EntityManager entityManager = entityDao.getEntityManager();
-		Query query = entityManager.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode," +
-				"SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays)," +
-				"SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop " +
-				"GROUP BY drop.shipper");
+		Query query = entityManager
+				.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode,"
+						+ "SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays),"
+						+ "SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop "
+						+ "GROUP BY drop.shipper");
 		List<Object[]> objectList = query.getResultList();
-		List<DropshipFilter> resultList =  convertObjectToDropship(objectList);
+		List<DropshipFilter> resultList = convertObjectToDropship(objectList);
 		return resultList;
 	}
 
@@ -113,12 +123,13 @@ public class DropshipDaoImpl implements DropshipDao {
 	@SuppressWarnings("unchecked")
 	public List<DropshipFilter> groupByGroupShipper() {
 		EntityManager entityManager = entityDao.getEntityManager();
-		Query query = entityManager.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode," +
-				"SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays)," +
-				"SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop " +
-				"GROUP BY drop.shipperGroup,drop.shipper");
+		Query query = entityManager
+				.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode,"
+						+ "SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays),"
+						+ "SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop "
+						+ "GROUP BY drop.shipperGroup,drop.shipper");
 		List<Object[]> objectList = query.getResultList();
-		List<DropshipFilter> resultList =  convertObjectToDropship(objectList);
+		List<DropshipFilter> resultList = convertObjectToDropship(objectList);
 		return resultList;
 	}
 
@@ -126,47 +137,74 @@ public class DropshipDaoImpl implements DropshipDao {
 	@SuppressWarnings("unchecked")
 	public List<DropshipFilter> groupByModeShipper() {
 		EntityManager entityManager = entityDao.getEntityManager();
-		Query query = entityManager.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode" +
-				"SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays)," +
-				"SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop " +
-				"GROUP BY drop.mode,drop.shipper");
+		Query query = entityManager
+				.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode"
+						+ "SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays),"
+						+ "SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop "
+						+ "GROUP BY drop.mode,drop.shipper");
 		List<Object[]> objectList = query.getResultList();
-		List<DropshipFilter> resultList =  convertObjectToDropship(objectList);
+		List<DropshipFilter> resultList = convertObjectToDropship(objectList);
 		return resultList;
 	}
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<DropshipFilter> groupByModeGroup() {
 		EntityManager entityManager = entityDao.getEntityManager();
-		Query query = entityManager.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode" +
-				"SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays)," +
-				"SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop " +
-				"GROUP BY drop.mode,drop.shipperGroup");
+		Query query = entityManager
+				.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode,"
+						+ "SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays),"
+						+ "SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop "
+						+ "GROUP BY drop.mode,drop.shipperGroup");
 		List<Object[]> objectList = query.getResultList();
-		List<DropshipFilter> resultList =  convertObjectToDropship(objectList);
+		List<DropshipFilter> resultList = convertObjectToDropship(objectList);
 		return resultList;
 	}
-	
-	public List<DropshipFilter> convertObjectToDropship(List<Object[]> objectList)
-	{
+
+	public List<DropshipFilter> convertObjectToDropship(
+			List<Object[]> objectList) {
 		List<DropshipFilter> resultList = new ArrayList<DropshipFilter>();
-		for(Object[] objArray : objectList )
-		{
+		for (Object[] objArray : objectList) {
 			DropshipFilter dropshipFilter = new DropshipFilter();
-			
-			dropshipFilter.setShipperGroup((String)objArray[0]);
-			dropshipFilter.setShipper((String)objArray[1]);
-			dropshipFilter.setMode((String)objArray[2]);
-			dropshipFilter.setShippedToday((Long)objArray[3]);
-			dropshipFilter.setNotshippedOneDay((Long)objArray[4]);
-			dropshipFilter.setNotshippedTwoDays((Long)objArray[5]);
-			dropshipFilter.setNotshippedThreeDays((Long)objArray[6]);
-			dropshipFilter.setNotshippedFourDays((Long)objArray[7]);
-			dropshipFilter.setNotshippedMoreFourDays((Long)objArray[8]);
-			
+
+			dropshipFilter.setShipperGroup((String) objArray[0]);
+			dropshipFilter.setShipper((String) objArray[1]);
+			dropshipFilter.setMode((String) objArray[2]);
+			dropshipFilter.setShippedToday((Long) objArray[3]);
+			dropshipFilter.setNotshippedOneDay((Long) objArray[4]);
+			dropshipFilter.setNotshippedTwoDays((Long) objArray[5]);
+			dropshipFilter.setNotshippedThreeDays((Long) objArray[6]);
+			dropshipFilter.setNotshippedFourDays((Long) objArray[7]);
+			dropshipFilter.setNotshippedMoreFourDays((Long) objArray[8]);
+
 			resultList.add(dropshipFilter);
 		}
+		return resultList;
+	}
+
+	@Override
+	public List<DropshipFilter> genericGroup(String q,
+			List<String> shipperNames, String shipper, String startDate,
+			String endDate, List<String> pincode) {
+		EntityManager entityManager = entityDao.getEntityManager();
+		Query query = entityManager
+				.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode,"
+						+ "SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays),"
+						+ "SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop where drop.created between :start and :end "
+						+ q);
+		if (!startDate.equals(""))
+			query.setParameter("start", DateConvertor.convertToDate(startDate));
+		if (!endDate.equals(""))
+			query.setParameter("end", DateConvertor.convertToDate(endDate));
+		if (shipperNames.size() > 0)
+			query.setParameter("shipperList", shipperNames);
+		
+		if (pincode.size() > 0)
+			query.setParameter("pincode", pincode);
+		if (!shipper.equals(""))
+			query.setParameter("shipper", shipper);
+		List<Object[]> objectList = query.getResultList();
+		List<DropshipFilter> resultList = convertObjectToDropship(objectList);
 		return resultList;
 	}
 }

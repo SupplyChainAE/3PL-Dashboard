@@ -4,47 +4,103 @@
 <tags:page title="SD Plus">
 	<jsp:attribute name="script">
 <script>
-	$(document).ready(function() {
-		$('#sdp').addClass("active");
-		$('#dashboard').addClass("active");
-		$("#sdpTable").DataTable({
-			"paging" : true,
-			"lengthChange" : false,
-			"searching" : false,
-			"ordering" : true,
-			"info" : true,
-			"autoWidth" : false,
-			dom: 'T<"clear">lfrtip',
-		});
-		$('#daterange').daterangepicker({
-			format : 'YYYY-MM-DD',
-			separator : ':'
-		});
+	$(document)
+			.ready(
+					function() {
+						$('#sdp').addClass("active");
+						$('#dashboard').addClass("active");
+						$("#sdpTable").DataTable({
+							"paging" : true,
+							"lengthChange" : false,
+							"searching" : false,
+							"ordering" : true,
+							"info" : true,
+							"autoWidth" : false,
+							dom : 'T<"clear">lfrtip',
+						});
+						$('#daterange')
+								.daterangepicker(
+										{
+											format : 'YYYY-MM-DD',
+											startDate : moment().subtract(29,
+													'days'),
+											endDate : moment(),
+											minDate : '2015-01-01',
+											maxDate : '2016-12-31',
+											dateLimit : {
+												days : 60
+											},
+											showDropdowns : true,
+											showWeekNumbers : true,
+											timePicker : false,
+											timePickerIncrement : 1,
+											timePicker12Hour : true,
+											ranges : {
+												'Today' : [ moment(), moment() ],
+												'Yesterday' : [
+														moment().subtract(1,
+																'days'),
+														moment().subtract(1,
+																'days') ],
+												'Last 7 Days' : [
+														moment().subtract(6,
+																'days'),
+														moment() ],
+												'Last 30 Days' : [
+														moment().subtract(29,
+																'days'),
+														moment() ],
+												'This Month' : [
+														moment().startOf(
+																'month'),
+														moment().endOf('month') ],
+												'Last Month' : [
+														moment()
+																.subtract(1,
+																		'month')
+																.startOf(
+																		'month'),
+														moment().subtract(1,
+																'month').endOf(
+																'month') ]
+											},
+											opens : 'left',
+											drops : 'down',
+											buttonClasses : [ 'btn', 'btn-sm' ],
+											applyClass : 'btn-primary',
+											cancelClass : 'btn-default',
+											separator : ':',
+											locale : {
+												applyLabel : 'Submit',
+												cancelLabel : 'Cancel',
+												fromLabel : 'From',
+												toLabel : 'To',
+												customRangeLabel : 'Custom',
+												daysOfWeek : [ 'Su', 'Mo',
+														'Tu', 'We', 'Th', 'Fr',
+														'Sa' ],
+												monthNames : [ 'January',
+														'February', 'March',
+														'April', 'May', 'June',
+														'July', 'August',
+														'September', 'October',
+														'November', 'December' ],
+												firstDay : 1
+											}
+										},
+										function(start, end, label) {
+											console.log(start.toISOString(),
+													end.toISOString(), label);
+											$('#reportrange span')
+													.html(
+															start
+																	.format('MMMM D, YYYY')
+																	+ ' - '
+																	+ end
+																			.format('MMMM D, YYYY'));
+										});
 
-	});
-
-	function save() {
-		var data, dataFlag;
-		if ("${filterData}" != "") {
-			data = "${filterData}";
-			dataFlag = false;
-		} else {
-			data = "${data}";
-			dataFlag = true;
-		}
-		$.ajax({
-			url : "/3PL/Dashboard/sdPpus/saveToFile",
-			method : "GET",
-			contentType : "application/json",
-			dataType : "Json",
-			data : {
-				data : data,
-				dataFlag : dataFlag
-			},
-			success : function(data) {
-			}
-		});
-	}
+					});
 </script>
 
 </jsp:attribute>
@@ -72,39 +128,24 @@
               <form name="filterform"
 							action="<c:url value="/Dashboard/sdplus/filterData"/>">
                           <div class="row">
-             <div class="col-md-4">
-                     <div class="form-group">
-                    <label>Select Date</label>
-                     <div class="input-group">
-                      <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                      </div>
-                      <input type="text" class="form-control pull-right"
-												name="daterange" id="daterange" required="required"/>
-                    </div>
-                  </div>
-									<!-- /.form-group -->
-                </div>
-             </div> 
-               <div class="row">
+           
+          
                
-                <div class="col-md-4">
+                <div class="col-md-2 col-md-offset-1">
+                  
                      <div class="form-group">
+                       <div class="row">
                     <label>Group by shipper group</label>
-                    <%-- <select name="shippergroup"
-											class="form-control select2">
-                          <option selected readonly value="">Select Group</option>
-                     <c:forEach var="group" items="${group}">
-                      <option value="${group}">${group}</option>
-                      </c:forEach>
-                    </select> --%>
-										<input type="checkbox" value="0" name="shippergroup" style="margin-left: 60px;">
+                </div>  <div class="row">
+										<input type="checkbox" value="0" name="shippergroup"
+												style="margin-left: 60px;">
                   </div>
+									</div>
 									<!-- /.form-group -->
                 </div>
 								<!-- /.col -->
                 
-                <div class="col-md-4"> 
+                <div class="col-md-3"> 
                   <div class="form-group">
                     <label>Shipper</label>
                     <select name="shipper" class="form-control select2">
@@ -118,7 +159,7 @@
                 </div>
 								<!-- /.col -->
                 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                      <div class="form-group">
                     <label>Mode</label>
                     <select name="mode" class="form-control select2">
@@ -129,8 +170,23 @@
                     </select>
                   </div>
 									<!-- /.form-group -->
-              </div>
+              </div>  
+              <div class="col-md-3">
+                     <div class="form-group">
+                    <label>Select Date</label>
+                     <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="text" class="form-control pull-right"
+												name="daterange" id="daterange" required="required" />
+                    </div>
+                  </div>
+									<!-- /.form-group -->
+                </div>
 						</div>		<!-- /.row -->
+			
+                
               <div align="center">
 									<input class="btn btn-success" type="submit" value="Filter">
 								</div>
