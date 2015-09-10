@@ -6,8 +6,11 @@
 <script>
 $(document).ready(function(){
 $('#cancel').addClass("active");
-
-$.fn.dataTable.Buttons.swfPath = '//cdn.datatables.net/buttons/1.0.0/swf/flashExport.swf';
+$('#daterange').daterangepicker({
+	format: 'YYYY-MM-DD',
+	separator: ':'
+});
+// $.fn.dataTable.Buttons.swfPath = '//cdn.datatables.net/buttons/1.0.0/swf/flashExport.swf';
 
 $("#cancTable").DataTable({
 		"paging": true,
@@ -17,10 +20,6 @@ $("#cancTable").DataTable({
 	    "info": true,
 	    "autoWidth": false,
 	    
-	    "buttons": [
-	              'csvFlash',
-	              'excelFlash'
-	          ]
 	    });
 });
 
@@ -50,9 +49,31 @@ function save()
             <div class="col-xs-14">
               <div class="box">
                 	<!-- /.box-header -->
-            
+                  <div class="box-body">
+              <form  name="filterform" action="<c:url value="/Dashboard/cancellation"/>">
+             
+               <div class="row">
+             <div class="col-md-4">
+                     <div class="form-group">
+                    <label>Select Date</label>
+                     <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="text" class="form-control pull-right" name="daterange" id="daterange" />
+                    </div>
+                  </div><!-- /.form-group -->
+                </div>
+             </div> 
+              <div align="center"><input class="btn btn-success" type="submit" value="Filter"></div>
+             
+              </form>
+              
+            </div><!-- /.box-body -->
+        <div class="box-footer"></div>
           			<div class="box-body">
           			<br>
+          			<c:if test="${ not empty data}">
                     <table id="cancTable" class="table table-bordered table-hover">
                     <thead>
                       <tr>
@@ -91,9 +112,10 @@ function save()
                     </table>
                     <div align="center">
                     	<button class="btn btn-app" onclick="save();">
-                    	<i 	class="fa fa-save"></i><br>Save to File
+                    	<i 	class="fa fa-save"></i>Save to File
                     	</button>
                     </div>
+                    </c:if>
                     </div>
                     
         		</div>

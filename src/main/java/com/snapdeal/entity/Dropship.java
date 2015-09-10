@@ -17,14 +17,16 @@ public class Dropship {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;	 
 	
+
+	@Column(name = "created")
+	private Date created;
+
+	
 	@Column(name="Shipper_group")
 	private String shipperGroup;		 
 	
 	@Column(name="Shipper")
 	private String shipper;	 
-	
-	@Column(name="created")
-	private Date created;
 	
 	@Column(name="Mode")
 	private  String mode;		 
@@ -171,13 +173,12 @@ public class Dropship {
 		this.sellerState = sellerState;
 	}
 
-	public void setCreated(Date created) {
-		this.created = created;
-	}
 
 	public Date getCreated() {
 		return created;
 	}
 
-	
+	public void setCreated(Date created) {
+		this.created = created;
+	}
 }

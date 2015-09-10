@@ -7,7 +7,9 @@ import com.snapdeal.entity.Shipper;
 
 public interface CancellationDao {
 
-	public List<Cancellation> getAllData(List<Shipper> shipperList,String date);
+	public List<Cancellation> getAllData(List<String> shipperList,String date);
+	
+	public List<Cancellation> getPincodeData(List<String> shipperList,List<String> pincodes,String date);
 	
 	public List<String> getModes();
 	

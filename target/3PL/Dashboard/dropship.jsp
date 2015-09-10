@@ -47,7 +47,7 @@ function save()
 			method : "POST",
 			contentType : "application/json",
 			mimeType: 'application/json',
-			dataType:"json",
+			dataType:"text",
 			data : data ,
 		
 			success: function(data){alert(data);},

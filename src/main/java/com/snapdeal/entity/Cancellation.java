@@ -16,12 +16,14 @@ public class Cancellation {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;	 
+
+	@Column(name = "created")
+	private Date created;
+
+	
 	
 	@Column(name="Shipper_group")
 	private String shipperGroup;		 
-	
-	@Column(name="created")
-	private Date created;
 	
 	@Column(name="Shipper")
 	private String shipper;	 
@@ -159,14 +161,14 @@ public class Cancellation {
 	public void setSellerName(String sellerName) {
 		this.sellerName = sellerName;
 	}
+	
+	public Date getCreated() {
+		return created;
+	}
 
 	public void setCreated(Date created) {
 		this.created = created;
 	}
 
-	public Date getCreated() {
-		return created;
-	}
-	
 
 }

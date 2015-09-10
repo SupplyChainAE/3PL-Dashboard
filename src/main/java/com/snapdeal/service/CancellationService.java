@@ -9,6 +9,6 @@ import com.snapdeal.entity.Cancellation;
 @Service
 public interface CancellationService {
 	
-	public String generateCancellationData(Cancellation[] data);
+	public String generateCancellationData(List<Cancellation> data);
 
 }
