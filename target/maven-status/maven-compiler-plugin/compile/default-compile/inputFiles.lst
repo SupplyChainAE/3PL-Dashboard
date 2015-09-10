@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /home/suryansh/3pl/3PL-Dashboard/src/main/java/com/snapdeal/dto/SdPlusFilter.java
 /home/suryansh/3pl/3PL-Dashboard/src/main/java/com/snapdeal/entity/SdPlus.java
 /home/suryansh/3pl/3PL-Dashboard/src/main/java/com/snapdeal/dao/CancellationDao.java
@@ -30,3 +31,40 @@
 /home/suryansh/3pl/3PL-Dashboard/src/main/java/com/snapdeal/entity/Shipper.java
 /home/suryansh/3pl/3PL-Dashboard/src/main/java/com/snapdeal/dto/Filters.java
 /home/suryansh/3pl/3PL-Dashboard/src/main/java/com/snapdeal/entity/BaseEntity.java
+=======
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/controller/DropshipController.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/dao/DropshipDao.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/controller/CancellationController.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/entity/SdPlus.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/service/DropshipServiceImpl.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/entity/User.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/service/UserService.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/dto/SdPlusFilter.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/dao/CancellationDao.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/entity/Pincode.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/dao/EntityDao.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/dao/Dao.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/entity/Cancellation.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/controller/LoginController.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/entity/Dropship.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/service/UserServiceImpl.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/util/DateConvertor.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/controller/SDPlusController.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/entity/Roles.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/entity/Shipper.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/dao/EntityDaoImpl.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/dao/SDPlusDao.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/service/DropshipService.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/dto/DropshipFilter.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/dao/SDPlusDaoImpl.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/service/UserAuthenticationService.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/dao/DropshipDaoImpl.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/dao/PincodeDao.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/service/CancellationServiceImpl.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/controller/UserController.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/entity/BaseEntity.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/dao/CancellationDaoImpl.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/dto/Filters.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/dao/PincodeDaoImpl.java
+/home/mohit/Workspace/3PL/src/main/java/com/snapdeal/service/CancellationService.java
+>>>>>>> refs/remotes/origin/master

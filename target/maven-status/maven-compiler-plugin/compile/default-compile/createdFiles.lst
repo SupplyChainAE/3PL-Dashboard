@@ -9,10 +9,19 @@ com/snapdeal/controller/UserController.class
 com/snapdeal/entity/BaseEntity.class
 com/snapdeal/dto/DropshipFilter.class
 com/snapdeal/dto/SdPlusFilter.class
+<<<<<<< HEAD
 com/snapdeal/entity/Shipper.class
 com/snapdeal/dao/DropshipDaoImpl.class
+=======
+com/snapdeal/dao/DropshipDaoImpl.class
+com/snapdeal/entity/Shipper.class
+com/snapdeal/dao/PincodeDaoImpl.class
+com/snapdeal/entity/Pincode.class
+com/snapdeal/dao/PincodeDao.class
+>>>>>>> refs/remotes/origin/master
 com/snapdeal/dao/CancellationDao.class
 com/snapdeal/service/UserAuthenticationService.class
+com/snapdeal/util/ShipperNames.class
 com/snapdeal/controller/CancellationController.class
 com/snapdeal/service/CancellationService.class
 com/snapdeal/dao/SDPlusDaoImpl.class
