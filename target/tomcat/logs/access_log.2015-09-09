@@ -1,0 +1,12 @@
+127.0.0.1 - - [09/Sep/2015:14:00:25 +0530] "GET /3PL/login HTTP/1.1" 200 2774 http-bio-8080-exec-1 987
+127.0.0.1 - - [09/Sep/2015:14:00:26 +0530] "GET /3PL/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 404 2870 http-bio-8080-exec-7 191
+127.0.0.1 - - [09/Sep/2015:14:00:26 +0530] "GET /3PL/fonts/glyphicons-halflings-regular.woff HTTP/1.1" 404 2870 http-bio-8080-exec-8 6
+127.0.0.1 - - [09/Sep/2015:14:00:26 +0530] "GET /3PL/fonts/glyphicons-halflings-regular.ttf HTTP/1.1" 404 2870 http-bio-8080-exec-9 7
+127.0.0.1 - - [09/Sep/2015:14:00:27 +0530] "POST /3PL/j_spring_security_check HTTP/1.1" 302 - http-bio-8080-exec-10 313
+127.0.0.1 - - [09/Sep/2015:14:00:28 +0530] "GET /3PL/home HTTP/1.1" 200 4919 http-bio-8080-exec-1 353
+127.0.0.1 - - [09/Sep/2015:14:00:31 +0530] "GET /3PL/Dashboard/sdplus HTTP/1.1" 200 14557 http-bio-8080-exec-7 363
+127.0.0.1 - - [09/Sep/2015:14:00:31 +0530] "GET /3PL/images/sort_asc.png HTTP/1.1" 404 2870 http-bio-8080-exec-8 9
+127.0.0.1 - - [09/Sep/2015:14:00:31 +0530] "GET /3PL/images/sort_both.png HTTP/1.1" 404 2870 http-bio-8080-exec-3 10
+127.0.0.1 - - [09/Sep/2015:14:00:31 +0530] "GET /3PL/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 404 2870 http-bio-8080-exec-2 14
+127.0.0.1 - - [09/Sep/2015:14:00:31 +0530] "GET /3PL/fonts/glyphicons-halflings-regular.woff HTTP/1.1" 404 2870 http-bio-8080-exec-1 6
+127.0.0.1 - - [09/Sep/2015:14:00:31 +0530] "GET /3PL/fonts/glyphicons-halflings-regular.ttf HTTP/1.1" 404 2870 http-bio-8080-exec-7 4

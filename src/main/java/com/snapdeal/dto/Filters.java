@@ -6,6 +6,15 @@ public class Filters {
 	private String mode;
 	private String shippergroup;
 	private String daterange;
+	private String pincode;
+
+	public String getPincode() {
+		return pincode;
+	}
+
+	public void setPincode(String pincode) {
+		this.pincode = pincode;
+	}
 
 	public String getDaterange() {
 		return daterange;

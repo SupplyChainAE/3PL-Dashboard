@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.snapdeal.dto.SdPlusFilter;
 import com.snapdeal.entity.SdPlus;
+import com.snapdeal.util.DateConvertor;
 
 @Transactional
 @Named("sdplusDao")
@@ -23,12 +24,14 @@ public class SDPlusDaoImpl implements SDPlusDao {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<SdPlus> getAllData(String startDate, String endDate) {
+	public List<SdPlus> getAllData(List<String> shipperNames, String startDate,
+			String endDate) {
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager
-				.createQuery("Select sdp from SdPlus sdp where sdp.created between :start and :end");
-		query.setParameter("start", startDate);
-		query.setParameter("end", endDate);
+				.createQuery("Select sdp from SdPlus sdp where sdp.created between :start and :end AND sdp.shipper IN :shipperList");
+		query.setParameter("start", DateConvertor.convertToDate(startDate));
+		query.setParameter("end", DateConvertor.convertToDate(endDate));
+		query.setParameter("shipperList", shipperNames);
 		List<SdPlus> resultList = query.getResultList();
 		return resultList;
 	}
@@ -65,17 +68,18 @@ public class SDPlusDaoImpl implements SDPlusDao {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<SdPlusFilter> groupByModeShipper(String startDate,
-			String endDate, String mode, String shipper) {
+	public List<SdPlusFilter> groupByModeShipper(List<String> shipperNames,
+			String startDate, String endDate, String mode, String shipper) {
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager
 				.createQuery("Select sdp.shipperGroup,sdp.shipper,sdp.mode"
 						+ "COUNT(sdp.shippedToday),COUNT(sdp.notshippedOneDay),COUNT(sdp.notshippedTwoDays),COUNT(sdp.notshippedThreeDays),"
 						+ "COUNT(sdp.notshippedFourDays),COUNT(sdp.notshippedMoreFourDays) from SdPlus sdp where sdp.created between :start and :end "
-						+ "GROUP BY sdp.mode,sdp.shipper HAVING sdp.mode= :mode AND sdp.shipper= :shipper");
-		query.setParameter("start", startDate);
-		query.setParameter("end", endDate);
+						+ "GROUP BY sdp.mode,sdp.shipper HAVING sdp.mode= :mode AND sdp.shipper= :shipper AND sdp.shipper IN :shipperList");
+		query.setParameter("start", DateConvertor.convertToDate(startDate));
+		query.setParameter("end", DateConvertor.convertToDate(endDate));
 		query.setParameter("mode", mode);
+		query.setParameter("shipperList", shipperNames);
 		query.setParameter("shipper", shipper);
 		List<Object[]> objectList = query.getResultList();
 		List<SdPlusFilter> resultList = convertObjectToSdPlus(objectList);
@@ -84,16 +88,17 @@ public class SDPlusDaoImpl implements SDPlusDao {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<SdPlusFilter> groupByModeGroupShipper(String startDate,
-			String endDate) {
+	public List<SdPlusFilter> groupByModeGroupShipper(
+			List<String> shipperNames, String startDate, String endDate) {
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager
 				.createQuery("Select sdp.shipperGroup,sdp.shipper,sdp.mode,"
 						+ "COUNT(sdp.shippedToday),COUNT(sdp.notshippedOneDay),COUNT(sdp.notshippedTwoDays),COUNT(sdp.notshippedThreeDays),"
 						+ "COUNT(sdp.notshippedFourDays),COUNT(sdp.notshippedMoreFourDays) from SdPlus sdp where sdp.created between :start and :end "
-						+ "GROUP BY sdp.shipperGroup,sdp.mode,sdp.shipper ");
-		query.setParameter("start", startDate);
-		query.setParameter("end", endDate);
+						+ "GROUP BY sdp.shipperGroup,sdp.mode,sdp.shipper HAVING sdp.shipper IN :shipperList ");
+		query.setParameter("start", DateConvertor.convertToDate(startDate));
+		query.setParameter("end", DateConvertor.convertToDate(endDate));
+		query.setParameter("shipperList", shipperNames);
 		List<Object[]> objectList = query.getResultList();
 		List<SdPlusFilter> resultList = convertObjectToSdPlus(objectList);
 		return resultList;
@@ -101,15 +106,18 @@ public class SDPlusDaoImpl implements SDPlusDao {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<SdPlusFilter> groupByGroup(String startDate, String endDate) {
+	public List<SdPlusFilter> groupByGroup(List<String> shipperNames,
+			String startDate, String endDate) {
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager
 				.createQuery("Select sdp.shipperGroup,sdp.shipper,sdp.mode,"
 						+ "COUNT(sdp.shippedToday),COUNT(sdp.notshippedOneDay),COUNT(sdp.notshippedTwoDays),COUNT(sdp.notshippedThreeDays),"
 						+ "COUNT(sdp.notshippedFourDays),COUNT(sdp.notshippedMoreFourDays) from SdPlus sdp where sdp.created between :start and :end "
-						+ "GROUP BY sdp.shipperGroup");
-		query.setParameter("start", startDate);
-		query.setParameter("end", endDate);
+						+ "GROUP BY sdp.shipperGroup  HAVING sdp.shipper IN :shipperList");
+		query.setParameter("start", DateConvertor.convertToDate(startDate));
+		query.setParameter("end", DateConvertor.convertToDate(endDate));
+		query.setParameter("shipperList", shipperNames);
+
 		List<Object[]> objectList = query.getResultList();
 		List<SdPlusFilter> resultList = convertObjectToSdPlus(objectList);
 		return resultList;
@@ -117,16 +125,19 @@ public class SDPlusDaoImpl implements SDPlusDao {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<SdPlusFilter> groupByMode(String startDate, String endDate ,String mode) {
+	public List<SdPlusFilter> groupByMode(List<String> shipperNames,
+			String startDate, String endDate, String mode) {
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager
 				.createQuery("Select sdp.shipperGroup,sdp.shipper,sdp.mode,"
 						+ "COUNT(sdp.shippedToday),COUNT(sdp.notshippedOneDay),COUNT(sdp.notshippedTwoDays),COUNT(sdp.notshippedThreeDays),"
 						+ "COUNT(sdp.notshippedFourDays),COUNT(sdp.notshippedMoreFourDays) from SdPlus sdp where sdp.created between :start and :end "
-						+ "GROUP BY sdp.mode HAVING sdp.mode= :mode");
-		query.setParameter("start", startDate);
-		query.setParameter("end", endDate);
-		query.setParameter("mode",mode);
+						+ "GROUP BY sdp.mode HAVING sdp.mode= :mode  AND sdp.shipper IN :shipperList");
+		query.setParameter("start", DateConvertor.convertToDate(startDate));
+		query.setParameter("end", DateConvertor.convertToDate(endDate));
+		query.setParameter("mode", mode);
+		query.setParameter("shipperList", shipperNames);
+
 		List<Object[]> objectList = query.getResultList();
 		List<SdPlusFilter> resultList = convertObjectToSdPlus(objectList);
 		return resultList;
@@ -134,17 +145,19 @@ public class SDPlusDaoImpl implements SDPlusDao {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<SdPlusFilter> groupByShipper(String startDate, String endDate,
-			String shipper) {
+	public List<SdPlusFilter> groupByShipper(List<String> shipperNames,
+			String startDate, String endDate, String shipper) {
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager
 				.createQuery("Select sdp.shipperGroup,sdp.shipper,sdp.mode,"
 						+ "COUNT(sdp.shippedToday),COUNT(sdp.notshippedOneDay),COUNT(sdp.notshippedTwoDays),COUNT(sdp.notshippedThreeDays),"
 						+ "COUNT(sdp.notshippedFourDays),COUNT(sdp.notshippedMoreFourDays) from SdPlus sdp where sdp.created between :start and :end "
-						+ "GROUP BY sdp.shipper HAVING sdp.shipper= :shipper");
-		query.setParameter("start", startDate);
-		query.setParameter("end", endDate);
+						+ "GROUP BY sdp.shipper HAVING sdp.shipper= :shipper  AND sdp.shipper IN :shipperList");
+		query.setParameter("start", DateConvertor.convertToDate(startDate));
+		query.setParameter("end", DateConvertor.convertToDate(endDate));
 		query.setParameter("shipper", shipper);
+		query.setParameter("shipperList", shipperNames);
+
 		List<Object[]> objectList = query.getResultList();
 		List<SdPlusFilter> resultList = convertObjectToSdPlus(objectList);
 		return resultList;
@@ -152,16 +165,18 @@ public class SDPlusDaoImpl implements SDPlusDao {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<SdPlusFilter> groupByGroupShipper(String startDate,
-			String endDate) {
+	public List<SdPlusFilter> groupByGroupShipper(List<String> shipperNames,
+			String startDate, String endDate) {
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager
 				.createQuery("Select sdp.shipperGroup,sdp.shipper,sdp.mode"
 						+ "COUNT(sdp.shippedToday),COUNT(sdp.notshippedOneDay),COUNT(sdp.notshippedTwoDays),COUNT(sdp.notshippedThreeDays),"
 						+ "COUNT(sdp.notshippedFourDays),COUNT(sdp.notshippedMoreFourDays) from SdPlus sdp where sdp.created between :start and :end "
-						+ "GROUP BY sdp.shipper,sdp.shipperGroup");
-		query.setParameter("start", startDate);
-		query.setParameter("end", endDate);
+						+ "GROUP BY sdp.shipper,sdp.shipperGroup  AND sdp.shipper IN :shipperList");
+		query.setParameter("start", DateConvertor.convertToDate(startDate));
+		query.setParameter("end", DateConvertor.convertToDate(endDate));
+		query.setParameter("shipperList", shipperNames);
+
 		List<Object[]> objectList = query.getResultList();
 		List<SdPlusFilter> resultList = convertObjectToSdPlus(objectList);
 		return resultList;
@@ -169,16 +184,17 @@ public class SDPlusDaoImpl implements SDPlusDao {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<SdPlusFilter> groupByModeGroup(String startDate,
-			String endDate, String mode) {
+	public List<SdPlusFilter> groupByModeGroup(List<String> shipperNames,
+			String startDate, String endDate, String mode) {
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager
 				.createQuery("Select sdp.shipperGroup,sdp.shipper,sdp.mode"
 						+ "COUNT(sdp.shippedToday),COUNT(sdp.notshippedOneDay),COUNT(sdp.notshippedTwoDays),COUNT(sdp.notshippedThreeDays),"
 						+ "COUNT(sdp.notshippedFourDays),COUNT(sdp.notshippedMoreFourDays) from SdPlus sdp where sdp.created between :start and :end "
-						+ "GROUP BY sdp.mode,sdp.shipperGroup HAVING sdp.mode= :mode");
-		query.setParameter("start", startDate);
-		query.setParameter("end", endDate);
+						+ "GROUP BY sdp.mode,sdp.shipperGroup HAVING sdp.mode= :mode  AND sdp.shipper IN :shipperList");
+		query.setParameter("start", DateConvertor.convertToDate(startDate));
+		query.setParameter("end", DateConvertor.convertToDate(endDate));
+		query.setParameter("shipperList", shipperNames);
 		query.setParameter("mode", mode);
 		List<Object[]> objectList = query.getResultList();
 		List<SdPlusFilter> resultList = convertObjectToSdPlus(objectList);
@@ -203,6 +219,45 @@ public class SDPlusDaoImpl implements SDPlusDao {
 
 			resultList.add(sdplusFilter);
 		}
+		return resultList;
+	}
+
+	@Override
+	public List<SdPlusFilter> groupByModeGroupPincode(
+			List<String> shipperNames, String startDate, String endDate,
+			String mode, String pincode) {
+		EntityManager entityManager = entityDao.getEntityManager();
+		Query query = entityManager
+				.createQuery("Select sdp.shipperGroup,sdp.shipper,sdp.mode"
+						+ "COUNT(sdp.shippedToday),COUNT(sdp.notshippedOneDay),COUNT(sdp.notshippedTwoDays),COUNT(sdp.notshippedThreeDays),"
+						+ "COUNT(sdp.notshippedFourDays),COUNT(sdp.notshippedMoreFourDays) from SdPlus sdp where sdp.created between :start and :end "
+						+ "GROUP BY sdp.shipperGroup HAVING sdp.mode= :mode  AND sdp.shipper IN :shipperList AND sdp.pincode= :pincode");
+		query.setParameter("start", DateConvertor.convertToDate(startDate));
+		query.setParameter("end", DateConvertor.convertToDate(endDate));
+		query.setParameter("shipperList", shipperNames);
+		query.setParameter("mode", mode);
+		query.setParameter("pincode", pincode);
+		List<Object[]> objectList = query.getResultList();
+		List<SdPlusFilter> resultList = convertObjectToSdPlus(objectList);
+		return resultList;
+	}
+
+	@Override
+	public List<SdPlusFilter> groupByGroupPincode(List<String> shipperNames,
+			String startDate, String endDate,String pincode) {
+		EntityManager entityManager = entityDao.getEntityManager();
+		Query query = entityManager
+				.createQuery("Select sdp.shipperGroup,sdp.shipper,sdp.mode"
+						+ "COUNT(sdp.shippedToday),COUNT(sdp.notshippedOneDay),COUNT(sdp.notshippedTwoDays),COUNT(sdp.notshippedThreeDays),"
+						+ "COUNT(sdp.notshippedFourDays),COUNT(sdp.notshippedMoreFourDays) from SdPlus sdp where sdp.created between :start and :end "
+						+ "GROUP BY sdp.shipperGroup HAVING sdp.shipper IN :shipperList AND sdp.pincode= :pincode");
+		query.setParameter("start", DateConvertor.convertToDate(startDate));
+		query.setParameter("end", DateConvertor.convertToDate(endDate));
+		query.setParameter("shipperList", shipperNames);
+		query.setParameter("pincode", pincode);
+
+		List<Object[]> objectList = query.getResultList();
+		List<SdPlusFilter> resultList = convertObjectToSdPlus(objectList);
 		return resultList;
 	}
 

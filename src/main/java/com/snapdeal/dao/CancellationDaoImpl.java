@@ -28,8 +28,7 @@ public class CancellationDaoImpl implements CancellationDao{
 		String[] daterange  = date.split(":");
 		String startDate = daterange[0];
 		String endDate = daterange[1];
-		System.out.println(startDate);
-		System.out.println(endDate);
+
 		List<String> shipperNames = new ArrayList<String>();
 		for(Shipper shipper : shipperList)
 		{

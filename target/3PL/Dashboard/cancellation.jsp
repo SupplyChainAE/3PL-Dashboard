@@ -6,11 +6,48 @@
 <script>
 $(document).ready(function(){
 $('#cancel').addClass("active");
+
 $('#daterange').daterangepicker({
-	format: 'YYYY-MM-DD',
-	separator: ':'
+    format: 'DD-MM-YYYY',
+    startDate: moment().subtract(29, 'days'),
+    endDate: moment(),
+    minDate: '01-01-2015',
+    maxDate: '31-12-2016',
+    dateLimit: { days: 60 },
+    showDropdowns: true,
+    showWeekNumbers: true,
+    timePicker: false,
+    timePickerIncrement: 1,
+    timePicker12Hour: true,
+    ranges: {
+       'Today': [moment(), moment()],
+       'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+       'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+       'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+       'This Month': [moment().startOf('month'), moment().endOf('month')],
+       'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+    },
+    opens: 'left',
+    drops: 'down',
+    buttonClasses: ['btn', 'btn-sm'],
+    applyClass: 'btn-primary',
+    cancelClass: 'btn-default',
+    separator: ':',
+    locale: {
+        applyLabel: 'Submit',
+        cancelLabel: 'Cancel',
+        fromLabel: 'From',
+        toLabel: 'To',
+        customRangeLabel: 'Custom',
+        daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
+        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        firstDay: 1
+    }
+}, function(start, end, label) {
+    console.log(start.toISOString(), end.toISOString(), label);
+    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
 });
-// $.fn.dataTable.Buttons.swfPath = '//cdn.datatables.net/buttons/1.0.0/swf/flashExport.swf';
+
 
 $("#cancTable").DataTable({
 		"paging": true,
@@ -19,22 +56,9 @@ $("#cancTable").DataTable({
 	    "ordering": true,
 	    "info": true,
 	    "autoWidth": false,
-	    
+	    dom: 'T<"clear">lfrtip',
 	    });
 });
-
-function save()
-{
-	var data ="${data}";
-	$.ajax({
-		url : "/3PL/Dashboard/cancellation/saveToFile",
-		method : "GET",
-		contentType : "application/json",
-		dataType  : "Json",
-		data : { data:data },
-		success: function(data){}
-	});
-}
 </script>
 
 </jsp:attribute>
@@ -53,7 +77,7 @@ function save()
               <form  name="filterform" action="<c:url value="/Dashboard/cancellation"/>">
              
                <div class="row">
-             <div class="col-md-4">
+             <div class="col-md-6">
                      <div class="form-group">
                     <label>Select Date</label>
                      <div class="input-group">
@@ -73,8 +97,8 @@ function save()
         <div class="box-footer"></div>
           			<div class="box-body">
           			<br>
-          			<c:if test="${ not empty data}">
-                    <table id="cancTable" class="table table-bordered table-hover">
+          			
+                    <table  id="cancTable" class="table table-bordered table-hover">
                     <thead>
                       <tr>
                         <th>Shipper Group</th>
@@ -110,12 +134,8 @@ function save()
                     </c:forEach>
                     </tbody>
                     </table>
-                    <div align="center">
-                    	<button class="btn btn-app" onclick="save();">
-                    	<i 	class="fa fa-save"></i>Save to File
-                    	</button>
-                    </div>
-                    </c:if>
+                
+                   
                     </div>
                     
         		</div>
