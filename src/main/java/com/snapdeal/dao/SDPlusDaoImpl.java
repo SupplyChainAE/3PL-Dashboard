@@ -28,7 +28,7 @@ public class SDPlusDaoImpl implements SDPlusDao {
 			String endDate) {
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager
-				.createQuery("Select sdp from SdPlus sdp where sdp.created between :start and :end AND sdp.shipper IN :shipperList");
+				.createQuery("Select sdp from SdPlus sdp where sdp.created between :start and :end AND sdp.shipper IN (:shipperList)");
 		query.setParameter("start", DateConvertor.convertToDate(startDate));
 		query.setParameter("end", DateConvertor.convertToDate(endDate));
 		query.setParameter("shipperList", shipperNames);
@@ -244,7 +244,7 @@ public class SDPlusDaoImpl implements SDPlusDao {
 
 	@Override
 	public List<SdPlusFilter> groupByGroupPincode(List<String> shipperNames,
-			String startDate, String endDate,String pincode) {
+			String startDate, String endDate, String pincode) {
 		EntityManager entityManager = entityDao.getEntityManager();
 		Query query = entityManager
 				.createQuery("Select sdp.shipperGroup,sdp.shipper,sdp.mode"
@@ -256,6 +256,30 @@ public class SDPlusDaoImpl implements SDPlusDao {
 		query.setParameter("shipperList", shipperNames);
 		query.setParameter("pincode", pincode);
 
+		List<Object[]> objectList = query.getResultList();
+		List<SdPlusFilter> resultList = convertObjectToSdPlus(objectList);
+		return resultList;
+	}
+
+	@Override
+	public List<SdPlusFilter> genericGroup(String q, List<String> shipperNames,
+			String shipper, String startDate, String endDate, String mode) {
+		EntityManager entityManager = entityDao.getEntityManager();
+		Query query = entityManager
+				.createQuery("Select sdp.shipperGroup,sdp.shipper,sdp.mode,"
+						+ "COUNT(sdp.shippedToday),COUNT(sdp.notshippedOneDay),COUNT(sdp.notshippedTwoDays),COUNT(sdp.notshippedThreeDays),"
+						+ "COUNT(sdp.notshippedFourDays),COUNT(sdp.notshippedMoreFourDays) from SdPlus sdp where sdp.created between :start and :end "
+						+ q);
+		if (!startDate.equals(""))
+			query.setParameter("start", DateConvertor.convertToDate(startDate));
+		if (!endDate.equals(""))
+			query.setParameter("end", DateConvertor.convertToDate(endDate));
+		if (shipperNames.size() > 0)
+			query.setParameter("shipperList", shipperNames);
+		if (!mode.equals(""))
+			query.setParameter("mode", mode);
+		if (!shipper.equals(""))
+			query.setParameter("shipper", shipper);
 		List<Object[]> objectList = query.getResultList();
 		List<SdPlusFilter> resultList = convertObjectToSdPlus(objectList);
 		return resultList;

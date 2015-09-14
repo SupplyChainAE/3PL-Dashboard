@@ -27,14 +27,22 @@ public class DateConvertor {
 		return null;
 	}
 	
-	public static String convertToString(Timestamp datetime) throws Exception 
+	public static String convertToString(Date date) 
 	{
-		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-		
-		String ts;		
-		ts=df.format(datetime);
-		
-		return ts;
+		try
+		{
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			
+			String dateString;		
+			dateString=df.format(date);
+			
+			return dateString;
+		}
+		catch(Exception ex)
+		{
+			LOGGER.error("Error in converting String to Date",ex);
+		}
+		return null;
 	}
 
 	public static String getDayOfMonth(Timestamp datetime)

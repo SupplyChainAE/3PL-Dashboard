@@ -11,8 +11,12 @@ com/snapdeal/dto/DropshipFilter.class
 com/snapdeal/dto/SdPlusFilter.class
 com/snapdeal/entity/Shipper.class
 com/snapdeal/dao/DropshipDaoImpl.class
+com/snapdeal/entity/Pincode.class
+com/snapdeal/dao/PincodeDaoImpl.class
 com/snapdeal/dao/CancellationDao.class
+com/snapdeal/dao/PincodeDao.class
 com/snapdeal/service/UserAuthenticationService.class
+com/snapdeal/util/ShipperNames.class
 com/snapdeal/controller/CancellationController.class
 com/snapdeal/service/CancellationService.class
 com/snapdeal/dao/SDPlusDaoImpl.class

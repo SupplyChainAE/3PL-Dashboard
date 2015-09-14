@@ -6,15 +6,17 @@ public class Filters {
 	private String mode;
 	private String shippergroup;
 	private String daterange;
-	private String pincode;
+	private String zone;
 
-	public String getPincode() {
-		return pincode;
+	public String getZone() {
+		return zone;
 	}
 
-	public void setPincode(String pincode) {
-		this.pincode = pincode;
+	public void setZone(String zone) {
+		this.zone = zone;
 	}
+
+	
 
 	public String getDaterange() {
 		return daterange;

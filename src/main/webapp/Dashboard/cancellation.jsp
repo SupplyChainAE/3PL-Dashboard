@@ -8,11 +8,11 @@ $(document).ready(function(){
 $('#cancel').addClass("active");
 
 $('#daterange').daterangepicker({
-    format: 'DD-MM-YYYY',
+    format: 'YYYY-MM-DD',
     startDate: moment().subtract(29, 'days'),
     endDate: moment(),
-    minDate: '01-01-2015',
-    maxDate: '31-12-2016',
+    minDate: '2015-01-01',
+    maxDate: '2016-12-31',
     dateLimit: { days: 60 },
     showDropdowns: true,
     showWeekNumbers: true,
@@ -77,18 +77,34 @@ $("#cancTable").DataTable({
               <form  name="filterform" action="<c:url value="/Dashboard/cancellation"/>">
              
                <div class="row">
-             <div class="col-md-6">
+                <div class="col-md-3">
+                     <div class="form-group"  >
+                    <label>Select Zone</label>
+                     <div class="input-group" >
+                     <select name="zone" class="form-control select2 required">
+                     <option selected disabled value="">Select Zone</option>
+                     <c:forEach var="zone" items="${zone}">
+                      <option value="${zone}">${zone}</option>
+                      </c:forEach>
+                    </select></div>
+                  </div><!-- /.form-group -->
+                </div>
+                
+                 <div class="col-md-4">
                      <div class="form-group">
                     <label>Select Date</label>
                      <div class="input-group">
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
-                      <input type="text" class="form-control pull-right" name="daterange" id="daterange" />
+                      <input type="text" class="form-control pull-right required" name="daterange" id="daterange" />
                     </div>
                   </div><!-- /.form-group -->
                 </div>
-             </div> 
+             </div>
+            
+                
+              
               <div align="center"><input class="btn btn-success" type="submit" value="Filter"></div>
              
               </form>

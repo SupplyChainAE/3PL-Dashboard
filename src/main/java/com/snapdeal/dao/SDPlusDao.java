@@ -41,6 +41,9 @@ public interface SDPlusDao {
 			List<String> shipperNames, String startDate, String endDate,
 			String mode, String pincode);
 
+	public List<SdPlusFilter> genericGroup(String q, List<String> shipperNames,String shipper,
+			String startDate, String endDate, String mode);
+
 	public List<SdPlusFilter> groupByGroupPincode(List<String> shipperNames,
-			String startDate, String endDate,String pincode);
+			String startDate, String endDate, String pincode);
 }
