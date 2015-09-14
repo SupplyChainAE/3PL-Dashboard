@@ -169,63 +169,63 @@ public class DropshipController {
 		return "/Dashboard/dropship";
 	}
 
-	@RequestMapping(value = "dropship/saveToFile1", method = RequestMethod.POST, consumes = "application/json")
-	public void downloadFile1(@RequestBody DropshipFilter[] data,
-			HttpServletResponse response) {
-		String content = "";
-		String currentDate = new Date(System.currentTimeMillis()).toString();
-		List<DropshipFilter> dropshipFilterData = new ArrayList<DropshipFilter>();
-		// dropshipFilterData.addAll(data);
-		for (DropshipFilter obj : data) {
-			dropshipFilterData.add((DropshipFilter) obj);
-		}
-		content = dropshipService
-				.generateDropshipFilterData(dropshipFilterData);
-		System.out.println(content);
-
-		try {
-			response.setContentType("");
-			response.setContentType("text/csv");
-			response.setHeader("Content-Disposition",
-					"attachment; filename=DropshipReport" + currentDate
-							+ ".csv");
-			response.setContentLength(content.length());
-			response.getWriter().write(content);
-
-		} catch (IOException e) {
-			LOGGER.error("IO Exception in sending template", e);
-		} catch (Exception e) {
-			LOGGER.error("Exception in sending template", e);
-		}
-	}
-
-	@RequestMapping(value = "dropship/saveToFile2", method = RequestMethod.POST, consumes = "application/json")
-	public @ResponseBody void downloadFile2(@RequestBody Dropship[] data,
-			HttpServletResponse response) {
-		String content = "";
-		String currentDate = new Date(System.currentTimeMillis()).toString();
-		List<Dropship> dropshipData = new ArrayList<Dropship>();
-
-		for (Object obj : data) {
-			dropshipData.add((Dropship) obj);
-		}
-		content = dropshipService.generateDropshipData(dropshipData);
-		System.out.println(content);
-
-		try {
-			response.setContentType("");
-			response.setContentType("text/csv");
-			response.setHeader("Content-Disposition",
-					"attachment; filename=DropshipReport" + currentDate
-							+ ".csv");
-			response.setContentLength(content.length());
-			response.getWriter().write(content);
-
-		} catch (IOException e) {
-			LOGGER.error("IO Exception in sending template", e);
-		} catch (Exception e) {
-			LOGGER.error("Exception in sending template", e);
-		}
-	}
+//	@RequestMapping(value = "dropship/saveToFile1", method = RequestMethod.POST, consumes = "application/json")
+//	public void downloadFile1(@RequestBody DropshipFilter[] data,
+//			HttpServletResponse response) {
+//		String content = "";
+//		String currentDate = new Date(System.currentTimeMillis()).toString();
+//		List<DropshipFilter> dropshipFilterData = new ArrayList<DropshipFilter>();
+//		// dropshipFilterData.addAll(data);
+//		for (DropshipFilter obj : data) {
+//			dropshipFilterData.add((DropshipFilter) obj);
+//		}
+//		content = dropshipService
+//				.generateDropshipFilterData(dropshipFilterData);
+//		System.out.println(content);
+//
+//		try {
+//			response.setContentType("");
+//			response.setContentType("text/csv");
+//			response.setHeader("Content-Disposition",
+//					"attachment; filename=DropshipReport" + currentDate
+//							+ ".csv");
+//			response.setContentLength(content.length());
+//			response.getWriter().write(content);
+//
+//		} catch (IOException e) {
+//			LOGGER.error("IO Exception in sending template", e);
+//		} catch (Exception e) {
+//			LOGGER.error("Exception in sending template", e);
+//		}
+//	}
+//
+//	@RequestMapping(value = "dropship/saveToFile2", method = RequestMethod.POST, consumes = "application/json")
+//	public @ResponseBody void downloadFile2(@RequestBody Dropship[] data,
+//			HttpServletResponse response) {
+//		String content = "";
+//		String currentDate = new Date(System.currentTimeMillis()).toString();
+//		List<Dropship> dropshipData = new ArrayList<Dropship>();
+//
+//		for (Object obj : data) {
+//			dropshipData.add((Dropship) obj);
+//		}
+//		content = dropshipService.generateDropshipData(dropshipData);
+//		System.out.println(content);
+//
+//		try {
+//			response.setContentType("");
+//			response.setContentType("text/csv");
+//			response.setHeader("Content-Disposition",
+//					"attachment; filename=DropshipReport" + currentDate
+//							+ ".csv");
+//			response.setContentLength(content.length());
+//			response.getWriter().write(content);
+//
+//		} catch (IOException e) {
+//			LOGGER.error("IO Exception in sending template", e);
+//		} catch (Exception e) {
+//			LOGGER.error("Exception in sending template", e);
+//		}
+//	}
 
 }

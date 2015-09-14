@@ -187,6 +187,49 @@ public class DropshipDaoImpl implements DropshipDao {
 			List<String> shipperNames, String shipper, String startDate,
 			String endDate, List<String> pincode) {
 		EntityManager entityManager = entityDao.getEntityManager();
+		if (pincode.size() > 8000) {
+			int num_batches = pincode.size() / 8000 + 1;
+			System.out.println(num_batches);
+			ArrayList<ArrayList<String>> pincodeList = new ArrayList<ArrayList<String>>();
+			ArrayList<String> arr = new ArrayList<String>();
+			int j = 1;
+			for (int i = 0; i < pincode.size(); i++) {
+				if (i > 8000 * j || (i == pincode.size() - 1)) {
+					pincodeList.add(arr);
+					arr = new ArrayList<String>();
+					j++;
+				}
+				arr.add(pincode.get(i));
+
+			}
+			System.out.println("Pincode List Size:" + pincodeList.size());
+			List<DropshipFilter> finalResultList = new ArrayList<DropshipFilter>();
+			System.out.println("q:\n" + q + "\n");
+			System.out.println("Enter Loop");
+			for (int i = 1; i <= pincodeList.size(); i++) {
+				Query query = entityManager
+						.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode,"
+								+ "SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays),"
+								+ "SUM(drop.notshippedFourDays),SUM(drop.notshippedMoreFourDays) from Dropship drop where drop.created between :start and :end "
+								+ q);
+				query.setParameter("pincode", pincodeList.get(i));
+				if (!startDate.equals(""))
+					query.setParameter("start",
+							DateConvertor.convertToDate(startDate));
+				if (!endDate.equals(""))
+					query.setParameter("end",
+							DateConvertor.convertToDate(endDate));
+				if (shipperNames.size() > 0)
+					query.setParameter("shipperList", shipperNames);
+
+				if (!shipper.equals(""))
+					query.setParameter("shipper", shipper);
+				List<Object[]> objectList = query.getResultList();
+				List<DropshipFilter> resultList = convertObjectToDropship(objectList);
+				finalResultList.addAll(resultList);
+			}
+			return finalResultList;
+		}
 		Query query = entityManager
 				.createQuery("Select drop.shipperGroup,drop.shipper,drop.mode,"
 						+ "SUM(drop.shippedToday),SUM(drop.notshippedOneDay),SUM(drop.notshippedTwoDays),SUM(drop.notshippedThreeDays),"
@@ -198,7 +241,6 @@ public class DropshipDaoImpl implements DropshipDao {
 			query.setParameter("end", DateConvertor.convertToDate(endDate));
 		if (shipperNames.size() > 0)
 			query.setParameter("shipperList", shipperNames);
-		
 		if (pincode.size() > 0)
 			query.setParameter("pincode", pincode);
 		if (!shipper.equals(""))
