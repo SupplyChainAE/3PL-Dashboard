@@ -40,16 +40,15 @@ public class SDPlusController {
 	public String getcompleteData(ModelMap map) {
 		User currentUser = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
-		List<String> shipperNames = ShipperNames
-				.getNamesFromShippers(currentUser.getShippers());
+	
 		List<String> zoneList = pincodeDao.getZones();
-
-		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		List<Shipper> shipperList = currentUser.getShippers();
+		List<String> shipperNames=ShipperNames.getNamesFromShippers(shipperList);
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date d = new Date();
 		String date = dateFormat.format(d);
 		List<SdPlus> sdplusList = sdplusDao
 				.getAllData(shipperNames, date, date);
-		List<String> shipperList = sdplusDao.getShippers();
 		List<String> modeList = sdplusDao.getModes();
 
 		map.put("shipper", shipperList);
@@ -73,12 +72,10 @@ public class SDPlusController {
 		System.out.println("group" + group);
 		System.out.println("shipper" + shipper);
 		System.out.println("daterange" + daterange);
-		List<String> shipperList = sdplusDao.getShippers();
-		List<String> modeList = sdplusDao.getModes();
-		List<String> groupList = sdplusDao.getShipperGroups();
-
 		User currentUser = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
+		List<String> modeList = sdplusDao.getModes();
+		List<String> groupList = sdplusDao.getShipperGroups();
 		List<String> shipperNames = ShipperNames
 				.getNamesFromShippers(currentUser.getShippers());
 
@@ -152,85 +149,8 @@ public class SDPlusController {
 			sdPlusData = sdplusDao.genericGroup(query7, shipperNames, "",
 					startDate, endDate, mode);
 		}
-		// // 8
-		// else if (zone.equals("") && daterange != null && !(group == null)
-		// && shipper.equals("") && mode.equals("")) {
-		// System.out.println("QUERY 8");
-		//
-		// sdPlusData = sdplusDao.genericGroup(query8, shipperNames, "",
-		// startDate, endDate, "", new ArrayList<String>());
-		// }
-		// // 9
-		// else if (!zone.equals("") && daterange != null && (group == null)
-		// && !shipper.equals("") && !mode.equals("")) {
-		// System.out.println("QUERY 9");
-		//
-		// sdPlusData = sdplusDao.genericGroup(query9, shipperNames, shipper,
-		// startDate, endDate, mode, pincodeList);
-		// }
-		// // 10
-		// else if (!zone.equals("") && daterange != null && (group == null)
-		// && !shipper.equals("") && mode.equals("")) {
-		// System.out.println("QUERY 10");
-		//
-		// sdPlusData = sdplusDao.genericGroup(query10, shipperNames, shipper,
-		// startDate, endDate, "", pincodeList);
-		// }
-		// // 11
-		// else if (!zone.equals("") && daterange != null && (group == null)
-		// && shipper.equals("") && !mode.equals("")) {
-		// System.out.println("QUERY 11");
-		// sdPlusData = sdplusDao.genericGroup(query11, shipperNames, "",
-		// startDate, endDate, mode, pincodeList);
-		// }
-		// // 12
-		// else if (!zone.equals("") && daterange != null && (group == null)
-		// && shipper.equals("") && mode.equals("")) {
-		// System.out.println("QUERY 12");
-		// sdPlusData = sdplusDao.genericGroup(query12, shipperNames, "",
-		// startDate, endDate, "", pincodeList);
-		// }
-		// // 13
-		// else if (zone.equals("") && daterange != null && (group == null)
-		// && !shipper.equals("") && !mode.equals("")) {
-		// System.out.println("QUERY 13");
-		// sdPlusData = sdplusDao.genericGroup(query13, shipperNames, shipper,
-		// startDate, endDate, mode, new ArrayList<String>());
-		// }
-		// // 14
-		// else if (zone.equals("") && daterange != null && (group == null)
-		// && !shipper.equals("") && mode.equals("")) {
-		// System.out.println("QUERY 14");
-		// sdPlusData = sdplusDao.genericGroup(query14, shipperNames, shipper,
-		// startDate, endDate, "", new ArrayList<String>());
-		// }
-		// // 15
-		// else if (zone.equals("") && daterange != null && (group == null)
-		// && shipper.equals("") && !mode.equals("")) {
-		// System.out.println("QUERY 15");
-		// sdPlusData = sdplusDao.genericGroup(query1, shipperNames, "",
-		// startDate, endDate, mode, new ArrayList<String>());
-		// }
-
-		/*
-		 * else if (!(group == null) && !shipper.equals("") && !mode.equals(""))
-		 * { sdPlusData = sdplusDao.groupByModeGroup(startDate, endDate, mode);
-		 * } else if (!(group == null) && !shipper.equals("") &&
-		 * mode.equals("")) { sdPlusData = sdplusDao.groupByGroup(startDate,
-		 * endDate); } else if (!(group == null) && shipper.equals("") &&
-		 * !mode.equals("")) { sdPlusData =
-		 * sdplusDao.groupByModeGroup(startDate, endDate, mode); } else if
-		 * (!(group == null) && shipper.equals("") && mode.equals("")) {
-		 * sdPlusData = sdplusDao.groupByGroup(startDate, endDate); } else if
-		 * ((group == null) && !shipper.equals("") && !mode.equals("")) {
-		 * sdPlusData = sdplusDao.groupByModeShipper(startDate, endDate, mode,
-		 * shipper); } else if ((group == null) && !shipper.equals("") &&
-		 * mode.equals("")) { sdPlusData = sdplusDao.groupByShipper(startDate,
-		 * endDate, shipper); } else if ((group == null) && shipper.equals("")
-		 * && !mode.equals("")) { sdPlusData = sdplusDao.groupByMode(startDate,
-		 * endDate, mode); }
-		 */
-
+	
+		List<Shipper>shipperList=currentUser.getShippers();
 		map.put("shipper", shipperList);
 		map.put("mode", modeList);
 		map.put("group", groupList);

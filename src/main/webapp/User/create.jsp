@@ -30,19 +30,19 @@
                     
                     <div class="form-group">
                       <label for="userName">User Name</label>
-                      <input class="form-control" name="userName" id="userName" placeholder="Enter Username">
+                      <input class="form-control" name="userName" id="userName" placeholder="Enter Username" required="required">
                     </div>
                     
                     <div class="form-group">
                       <label for="password">Password</label>
                       <input type="password" class="form-control"
-									name="password"	id="password" placeholder="Password">
+									name="password"	id="password" placeholder="Password" required="required">
                     </div>
                     
                     <div class="form-group ">
                     <div class="select2-container select2-container-multi">
                     <label>Roles</label>
-                    <select name="role" multiple="multiple" class="form-control select2">
+                    <select name="role" multiple="multiple" class="form-control select2" required="required">
                       <c:forEach var="roles" items="${roles}">
                       <option value="${roles.id}">${roles.role}</option>
                       </c:forEach>
@@ -53,7 +53,8 @@
                   <div class="form-group ">
                     <div class="select2-container select2-container-multi">
                     <label>Shippers</label>
-                    <select name="shipper" multiple="multiple" class="form-control select2" >
+                    <select name="shipper" multiple="multiple"
+												class="form-control select2" required="required">
                      <c:forEach var="shipper" items="${shippers}">
                       <option value="${shipper.id}">${shipper.courier}</option>
                       </c:forEach>

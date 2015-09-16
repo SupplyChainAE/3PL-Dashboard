@@ -1,29 +1,24 @@
 package com.snapdeal.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.snapdeal.dao.DropshipDao;
 import com.snapdeal.dao.PincodeDao;
 import com.snapdeal.dto.DropshipFilter;
 import com.snapdeal.dto.Filters;
 import com.snapdeal.entity.Dropship;
+import com.snapdeal.entity.Shipper;
 import com.snapdeal.entity.User;
 import com.snapdeal.service.DropshipService;
 import com.snapdeal.util.ShipperNames;
@@ -50,7 +45,9 @@ public class DropshipController {
 	@RequestMapping("dropship")
 	public String getcompleteData(ModelMap map) {
 		List<Dropship> dropshipList = dropshipDao.getAllData();
-		List<String> shipperList = dropshipDao.getShippers();
+		User currentUser = (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		List<Shipper> shipperList = currentUser.getShippers();
 		List<String> modeList = dropshipDao.getModes();
 		List<String> groupList = dropshipDao.getShipperGroups();
 		List<String> zoneList = pincodeDao.getZones();
@@ -87,7 +84,7 @@ public class DropshipController {
 		List<String> shipperNames = ShipperNames
 				.getNamesFromShippers(currentUser.getShippers());
 		List<String> pincodeList = pincodeDao.getPincodeForZone(zone);
-		System.out.println("SIZE: "+pincodeList.size());
+		System.out.println("SIZE: " + pincodeList.size());
 		String query1 = "AND drop.shipper IN (:shipperList) AND drop.sellerPinCode IN (:pincode) GROUP BY drop.shipperGroup ";
 		String query2 = "AND drop.shipper IN (:shipperList) GROUP BY drop.shipperGroup";
 		String query3 = query1;
@@ -95,7 +92,7 @@ public class DropshipController {
 		String query5 = "AND drop.shipper IN (:shipperList) AND drop.shipper= :shipper AND drop.sellerPinCode IN (:pincode) GROUP BY drop.shipper ";
 		String query6 = "AND drop.shipper IN (:shipperList) AND drop.shipper= :shipper GROUP BY drop.shipperGroup";
 		String query7 = "AND drop.shipper IN (:shipperList) AND drop.sellerPinCode IN (:pincode)";
-	
+
 		List<DropshipFilter> dropshipData = new ArrayList<DropshipFilter>();
 		// 8
 		if (zone.equals("") && daterange != null && (group == null)
@@ -160,72 +157,75 @@ public class DropshipController {
 			dropshipData = dropshipDao.genericGroup(query7, shipperNames, "",
 					startDate, endDate, pincodeList);
 		}
-		
+
 		map.put("shipper", shipperList);
 		map.put("mode", modeList);
 		map.put("group", groupList);
-		map.put("zone",zoneList);
+		map.put("zone", zoneList);
 		map.put("filterData", dropshipData);
 		return "/Dashboard/dropship";
 	}
 
-//	@RequestMapping(value = "dropship/saveToFile1", method = RequestMethod.POST, consumes = "application/json")
-//	public void downloadFile1(@RequestBody DropshipFilter[] data,
-//			HttpServletResponse response) {
-//		String content = "";
-//		String currentDate = new Date(System.currentTimeMillis()).toString();
-//		List<DropshipFilter> dropshipFilterData = new ArrayList<DropshipFilter>();
-//		// dropshipFilterData.addAll(data);
-//		for (DropshipFilter obj : data) {
-//			dropshipFilterData.add((DropshipFilter) obj);
-//		}
-//		content = dropshipService
-//				.generateDropshipFilterData(dropshipFilterData);
-//		System.out.println(content);
-//
-//		try {
-//			response.setContentType("");
-//			response.setContentType("text/csv");
-//			response.setHeader("Content-Disposition",
-//					"attachment; filename=DropshipReport" + currentDate
-//							+ ".csv");
-//			response.setContentLength(content.length());
-//			response.getWriter().write(content);
-//
-//		} catch (IOException e) {
-//			LOGGER.error("IO Exception in sending template", e);
-//		} catch (Exception e) {
-//			LOGGER.error("Exception in sending template", e);
-//		}
-//	}
-//
-//	@RequestMapping(value = "dropship/saveToFile2", method = RequestMethod.POST, consumes = "application/json")
-//	public @ResponseBody void downloadFile2(@RequestBody Dropship[] data,
-//			HttpServletResponse response) {
-//		String content = "";
-//		String currentDate = new Date(System.currentTimeMillis()).toString();
-//		List<Dropship> dropshipData = new ArrayList<Dropship>();
-//
-//		for (Object obj : data) {
-//			dropshipData.add((Dropship) obj);
-//		}
-//		content = dropshipService.generateDropshipData(dropshipData);
-//		System.out.println(content);
-//
-//		try {
-//			response.setContentType("");
-//			response.setContentType("text/csv");
-//			response.setHeader("Content-Disposition",
-//					"attachment; filename=DropshipReport" + currentDate
-//							+ ".csv");
-//			response.setContentLength(content.length());
-//			response.getWriter().write(content);
-//
-//		} catch (IOException e) {
-//			LOGGER.error("IO Exception in sending template", e);
-//		} catch (Exception e) {
-//			LOGGER.error("Exception in sending template", e);
-//		}
-//	}
+	// @RequestMapping(value = "dropship/saveToFile1", method =
+	// RequestMethod.POST, consumes = "application/json")
+	// public void downloadFile1(@RequestBody DropshipFilter[] data,
+	// HttpServletResponse response) {
+	// String content = "";
+	// String currentDate = new Date(System.currentTimeMillis()).toString();
+	// List<DropshipFilter> dropshipFilterData = new
+	// ArrayList<DropshipFilter>();
+	// // dropshipFilterData.addAll(data);
+	// for (DropshipFilter obj : data) {
+	// dropshipFilterData.add((DropshipFilter) obj);
+	// }
+	// content = dropshipService
+	// .generateDropshipFilterData(dropshipFilterData);
+	// System.out.println(content);
+	//
+	// try {
+	// response.setContentType("");
+	// response.setContentType("text/csv");
+	// response.setHeader("Content-Disposition",
+	// "attachment; filename=DropshipReport" + currentDate
+	// + ".csv");
+	// response.setContentLength(content.length());
+	// response.getWriter().write(content);
+	//
+	// } catch (IOException e) {
+	// LOGGER.error("IO Exception in sending template", e);
+	// } catch (Exception e) {
+	// LOGGER.error("Exception in sending template", e);
+	// }
+	// }
+	//
+	// @RequestMapping(value = "dropship/saveToFile2", method =
+	// RequestMethod.POST, consumes = "application/json")
+	// public @ResponseBody void downloadFile2(@RequestBody Dropship[] data,
+	// HttpServletResponse response) {
+	// String content = "";
+	// String currentDate = new Date(System.currentTimeMillis()).toString();
+	// List<Dropship> dropshipData = new ArrayList<Dropship>();
+	//
+	// for (Object obj : data) {
+	// dropshipData.add((Dropship) obj);
+	// }
+	// content = dropshipService.generateDropshipData(dropshipData);
+	// System.out.println(content);
+	//
+	// try {
+	// response.setContentType("");
+	// response.setContentType("text/csv");
+	// response.setHeader("Content-Disposition",
+	// "attachment; filename=DropshipReport" + currentDate
+	// + ".csv");
+	// response.setContentLength(content.length());
+	// response.getWriter().write(content);
+	//
+	// } catch (IOException e) {
+	// LOGGER.error("IO Exception in sending template", e);
+	// } catch (Exception e) {
+	// LOGGER.error("Exception in sending template", e);
+	// }
+	// }
 
 }

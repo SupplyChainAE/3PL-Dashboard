@@ -151,7 +151,7 @@
                     <select name="shipper" class="form-control select2">
                       <option selected readonly value="">Select Shipper</option>
                      <c:forEach var="shipper" items="${shipper}">
-                      <option value="${shipper}">${shipper}</option>
+                      <option value="${shipper.courier}">${shipper}</option>
                      </c:forEach>
                     </select>
                   </div>

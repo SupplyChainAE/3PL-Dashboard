@@ -34,7 +34,7 @@
                       <label for="userName">User Name</label>
                       <input class="form-control" name="userName"
 											id="userName" placeholder="Enter Username"
-											value="${user.userName}">
+											value="${user.userName}" required="required">
                     </div>
           
                                 
@@ -43,7 +43,7 @@
                     <div class="select2-container select2-container-multi">
                     <label>Roles</label>
                     <select name="role" multiple="multiple"
-												class="form-control select2">
+												class="form-control select2" required="required">
                       <c:forEach var="roles" items="${roles}">
                       			<c:set var="found" value="false" />
                       			<c:forEach var="savedRole"
@@ -66,7 +66,7 @@
 											class="select2-container select2-container-multi">
                     <label>Shippers</label>
                     <select name="shipper" multiple="multiple"
-												class="form-control select2">
+												class="form-control select2" required="required">
                      <c:forEach var="shipper" items="${shippers}">
 							<c:forEach var="savedShipper" items="${user.shippers}">
 									<c:set var="found" value="false" />
