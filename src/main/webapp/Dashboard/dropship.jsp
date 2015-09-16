@@ -16,7 +16,8 @@
 							"searching" : true,
 							"ordering" : true,
 							"info" : true,
-							"autoWidth" : false
+							"autoWidth" : false,
+							dom : 'T<"clear">lfrtip',
 						});
 						$('#daterange')
 								.daterangepicker(
