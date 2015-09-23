@@ -5,15 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="shipper")
+@Table(name = "shipper")
 public class Shipper extends BaseEntity {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	@Column(name="shipper",nullable=false)
+
+	@Column(name = "shipper", nullable = false)
 	private String courier;
 
 	public void setCourier(String courier) {
@@ -24,7 +24,4 @@ public class Shipper extends BaseEntity {
 		return courier;
 	}
 
-	
-
-	
 }

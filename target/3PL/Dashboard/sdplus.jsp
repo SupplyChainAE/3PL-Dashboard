@@ -151,7 +151,7 @@
                     <select name="shipper" class="form-control select2">
                       <option selected readonly value="">Select Shipper</option>
                      <c:forEach var="shipper" items="${shipper}">
-                      <option value="${shipper}">${shipper}</option>
+                      <option value="${shipper.courier}">${shipper.courier}</option>
                      </c:forEach>
                     </select>
                   </div>
@@ -205,7 +205,10 @@
                     <thead>
                       <tr>
                         <th>Shipper Group</th>
+                     
+                        <c:if test="${group_aggr > 5}">
                         <th>Shipper</th>
+						</c:if>
                         <th>Mode</th>
                         <th>Center</th>
                         <th>Shipped Today</th>
@@ -220,7 +223,9 @@
                     <c:forEach var="item" items="${data}">
                     <tr>
                         <td>${item.shipperGroup}</td>
+                        <c:if test="${group_aggr > 5 }">
                         <td>${item.shipper}</td>
+                        </c:if>
                         <td>${item.mode}</td>
                         <td>${item.center}</td>
                         <td>${item.shippedToday}</td>

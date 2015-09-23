@@ -11,7 +11,6 @@
 <link href="<c:url value="/css/dataTables.bootstrap.css"/>" rel="stylesheet" />
 <link href="<c:url value="/css/TableTools.css"/>" rel="stylesheet" />
 
-<link href="<c:url value="/css/select2.min.css"/>" rel="stylesheet" />
 <link href="<c:url value="/css/chosen.css"/>" rel="stylesheet" />
 <link href="<c:url value="/css/bootstrap3-wysihtml5.css"/>" rel="stylesheet" type="text/css" />
 <link href="<c:url value="/css/daterangepicker-bs3.css"/>" rel="stylesheet" />
@@ -32,11 +31,9 @@
 
 <script src="<c:url value="/js/TableTools.js"/>"></script>
 
-<script src="<c:url value="/js/select2.full.js"/>"></script>
 <script src='<c:url value="/js/moment.min.js"/>'></script>
 <script src='<c:url value="/js/daterangepicker.js"/>'></script>
 
-<script src="<c:url value="/js/jquery.noty.js"/>"></script>
 <script src="<c:url value="/js/form-elements.js"/>"></script>
 <script src="<c:url value="/js/jquery.chosen.min.js"/>"></script>
 <script src='<c:url value="/js/dataTables.buttons.min.js"/>'></script>

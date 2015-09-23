@@ -22,6 +22,7 @@ import com.snapdeal.dto.SdPlusFilter;
 import com.snapdeal.entity.SdPlus;
 import com.snapdeal.entity.Shipper;
 import com.snapdeal.entity.User;
+import com.snapdeal.util.DateConvertor;
 import com.snapdeal.util.ShipperNames;
 
 @Controller
@@ -40,13 +41,13 @@ public class SDPlusController {
 	public String getcompleteData(ModelMap map) {
 		User currentUser = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
-	
+		String date = DateConvertor.convertToString(new Date());
+		date += ":" + date;
+
 		List<String> zoneList = pincodeDao.getZones();
 		List<Shipper> shipperList = currentUser.getShippers();
-		List<String> shipperNames=ShipperNames.getNamesFromShippers(shipperList);
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date d = new Date();
-		String date = dateFormat.format(d);
+		List<String> shipperNames = ShipperNames
+				.getNamesFromShippers(shipperList);
 		List<SdPlus> sdplusList = sdplusDao
 				.getAllData(shipperNames, date, date);
 		List<String> modeList = sdplusDao.getModes();
@@ -75,7 +76,6 @@ public class SDPlusController {
 		User currentUser = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 		List<String> modeList = sdplusDao.getModes();
-		List<String> groupList = sdplusDao.getShipperGroups();
 		List<String> shipperNames = ShipperNames
 				.getNamesFromShippers(currentUser.getShippers());
 
@@ -84,15 +84,21 @@ public class SDPlusController {
 		String query3 = query1;
 		String query4 = "AND sdp.shipper IN (:shipperList) GROUP BY sdp.shipperGroup";
 		String query5 = "AND sdp.mode= :mode  AND sdp.shipper IN (:shipperList) AND sdp.shipper= :shipper GROUP BY sdp.shipper";
-		String query6 = "AND sdp.mode= :mode AND sdp.shipper IN (:shipperList) GROUP BY sdp.shipper";
-		String query7 = "AND sdp.mode = :mode";
+		String query6 = "AND sdp.shipper IN (:shipperList) AND sdp.shipper= :shipper GROUP BY sdp.shipper";
+		String query7 = "AND sdp.shipper IN (:shipperList) AND sdp.mode = :mode";
+		String query8 = "AND sdp.shipper IN (:shipperList)";
 
 		List<SdPlusFilter> sdPlusData = new ArrayList<SdPlusFilter>();
 		// 8
 		if (daterange != null && (group == null) && shipper.equals("")
 				&& mode.equals("")) {
-			System.out.println("sdplus QUERY 16");
-			return "redirect:/Dashboard/sdplus";
+			// check
+			System.out.println("sdplus QUERY 8");
+			sdPlusData = sdplusDao.genericGroup(query8, shipperNames, "",
+					startDate, endDate, "");
+			map.put("group_aggr", 10);
+
+			// return "redirect:/Dashboard/sdplus";
 		}
 		// 1
 		else if (daterange != null && !(group == null) && !shipper.equals("")
@@ -101,6 +107,7 @@ public class SDPlusController {
 
 			sdPlusData = sdplusDao.genericGroup(query1, shipperNames, "",
 					startDate, endDate, mode);
+			map.put("group_aggr", 1);
 		}
 		// 2
 		else if (daterange != null && !(group == null) && !shipper.equals("")
@@ -109,6 +116,8 @@ public class SDPlusController {
 
 			sdPlusData = sdplusDao.genericGroup(query2, shipperNames, "",
 					startDate, endDate, "");
+			map.put("group_aggr", 1);
+
 		}
 		// 3
 		else if (daterange != null && !(group == null) && shipper.equals("")
@@ -117,6 +126,8 @@ public class SDPlusController {
 
 			sdPlusData = sdplusDao.genericGroup(query3, shipperNames, "",
 					startDate, endDate, mode);
+			map.put("group_aggr", 1);
+
 		}
 		// 4
 		else if (daterange != null && !(group == null) && shipper.equals("")
@@ -125,6 +136,8 @@ public class SDPlusController {
 
 			sdPlusData = sdplusDao.genericGroup(query4, shipperNames, "",
 					startDate, endDate, "");
+			map.put("group_aggr", 1);
+
 		}
 		// 5
 		else if (daterange != null && (group == null) && !shipper.equals("")
@@ -132,6 +145,8 @@ public class SDPlusController {
 			System.out.println("QUERY 5");
 			sdPlusData = sdplusDao.genericGroup(query5, shipperNames, shipper,
 					startDate, endDate, mode);
+			map.put("group_aggr", 10);
+
 		}
 		// 6
 		else if (daterange != null && (group == null) && !shipper.equals("")
@@ -140,6 +155,8 @@ public class SDPlusController {
 
 			sdPlusData = sdplusDao.genericGroup(query6, shipperNames, shipper,
 					startDate, endDate, "");
+			map.put("group_aggr", 10);
+
 		}
 		// 7
 		else if (daterange != null && (group == null) && shipper.equals("")
@@ -148,13 +165,13 @@ public class SDPlusController {
 
 			sdPlusData = sdplusDao.genericGroup(query7, shipperNames, "",
 					startDate, endDate, mode);
+			map.put("group_aggr", 10);
+
 		}
-	
-		List<Shipper>shipperList=currentUser.getShippers();
+
+		List<Shipper> shipperList = currentUser.getShippers();
 		map.put("shipper", shipperList);
 		map.put("mode", modeList);
-		map.put("group", groupList);
-
 		map.put("filterData", sdPlusData);
 
 		return "/Dashboard/sdplus";

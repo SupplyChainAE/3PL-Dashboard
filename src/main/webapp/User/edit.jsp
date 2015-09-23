@@ -6,7 +6,6 @@
 <script>
 	$(document).ready(function() {
 		$('#useredit').addClass("active");
-		$(".select2").select2();
 	});
 </script>
 
@@ -29,7 +28,8 @@
                   <div class="col-xs-6">
                   	<div class="box-body">
                     <input type="hidden" name="id" value="${user.id}">
-                    <input type="hidden" name="password" value="${user.password}">
+                    <input type="hidden" name="password"
+										value="${user.password}">
                     <div class="form-group">
                       <label for="userName">User Name</label>
                       <input class="form-control" name="userName"
@@ -40,10 +40,12 @@
                                 
                     
                     <div class="form-group ">
-                    <div class="select2-container select2-container-multi">
                     <label>Roles</label>
+                                        <div
+											class="chosen-container-multi chosen-container">
+                    
                     <select name="role" multiple="multiple"
-												class="form-control select2" required="required">
+												class="form-control " required="required" data-rel="chosen">
                       <c:forEach var="roles" items="${roles}">
                       			<c:set var="found" value="false" />
                       			<c:forEach var="savedRole"
@@ -62,11 +64,12 @@
                   </div>
                   
                   <div class="form-group ">
-                    <div
-											class="select2-container select2-container-multi">
+                    
                     <label>Shippers</label>
+                    <div class="chosen-container-multi chosen-container">
+                    
                     <select name="shipper" multiple="multiple"
-												class="form-control select2" required="required">
+												class="form-control " required="required" data-rel="chosen">
                      <c:forEach var="shipper" items="${shippers}">
 							<c:forEach var="savedShipper" items="${user.shippers}">
 									<c:set var="found" value="false" />

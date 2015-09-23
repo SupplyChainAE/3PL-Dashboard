@@ -1,9 +1,7 @@
 com/snapdeal/dao/CancellationDaoImpl.class
-com/snapdeal/service/CancellationServiceImpl.class
 com/snapdeal/dao/EntityDao.class
 com/snapdeal/entity/User.class
 com/snapdeal/dto/Filters.class
-com/snapdeal/service/DropshipService.class
 com/snapdeal/entity/Cancellation.class
 com/snapdeal/controller/UserController.class
 com/snapdeal/entity/BaseEntity.class
@@ -18,7 +16,6 @@ com/snapdeal/dao/PincodeDao.class
 com/snapdeal/service/UserAuthenticationService.class
 com/snapdeal/util/ShipperNames.class
 com/snapdeal/controller/CancellationController.class
-com/snapdeal/service/CancellationService.class
 com/snapdeal/dao/SDPlusDaoImpl.class
 com/snapdeal/service/UserServiceImpl.class
 com/snapdeal/dao/SDPlusDao.class
@@ -27,7 +24,6 @@ com/snapdeal/dao/EntityDaoImpl.class
 com/snapdeal/controller/LoginController.class
 com/snapdeal/service/UserService.class
 com/snapdeal/util/DateConvertor.class
-com/snapdeal/service/DropshipServiceImpl.class
 com/snapdeal/controller/DropshipController.class
 com/snapdeal/entity/SdPlus.class
 com/snapdeal/dao/DropshipDao.class

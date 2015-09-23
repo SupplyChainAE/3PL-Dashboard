@@ -17,7 +17,6 @@ import com.snapdeal.dao.CancellationDao;
 import com.snapdeal.dao.PincodeDao;
 import com.snapdeal.entity.Cancellation;
 import com.snapdeal.entity.User;
-import com.snapdeal.service.CancellationService;
 import com.snapdeal.util.DateConvertor;
 import com.snapdeal.util.ShipperNames;
 
@@ -33,9 +32,6 @@ public class CancellationController {
 	@Named("pincodeDao")
 	PincodeDao pincodeDao;
 	
-	@Inject
-	@Named("cancellationService")
-	CancellationService cancelService;
 	
 	public static final Logger LOGGER = Logger.getLogger(CancellationController.class);
 	
@@ -46,7 +42,7 @@ public class CancellationController {
 		User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<String> shipperNames = ShipperNames.getNamesFromShippers(currentUser.getShippers());		
 		List<Cancellation>  cancellationList;
-		if(!zone.equals(""))
+		if(zone!=null)
 		{
 			List<String> pincodeList = pincodeDao.getPincodeForZone(zone);
 			cancellationList = cancelDao.getPincodeData(shipperNames,pincodeList,date);	
@@ -69,7 +65,6 @@ public class CancellationController {
 	{
 		String date = DateConvertor.convertToString(new Date());
 		date += ":"+date;
-		
 		User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();	
 		List<String> shipperNames = ShipperNames.getNamesFromShippers(currentUser.getShippers());		
 		List<Cancellation>  cancellationList = cancelDao.getAllData(shipperNames,date);
@@ -80,29 +75,4 @@ public class CancellationController {
 		
 		return "/Dashboard/cancellation";
 	}
-
-
-//	@RequestMapping("/Cancellation/save")
-//	public void saveToFile(@ModelAttribute("data") Cancellation[] data,HttpServletResponse response)
-//	{
-//		String content ="dssdsds";
-//		String currentDate = new Date(System.currentTimeMillis()).toString();
-//		
-////		content = cancelService.generateCancellationData(data);	
-//		System.out.println(content);
-//
-//		try 
-//		{
-//			response.setContentType("");
-//			response.setContentType("text/csv");
-//			response.setHeader("Content-Disposition", "attachment; filename=CancellationReport"+currentDate+".csv");
-//			response.setContentLength(content.length());
-//			response.getWriter().write(content);
-//		
-//		} catch (IOException e) {
-//			LOGGER.error("IO Exception in sending template",e);
-//		}catch (Exception e) {
-//			LOGGER.error("Exception in sending template",e);
-//		}
-//	}
 }
